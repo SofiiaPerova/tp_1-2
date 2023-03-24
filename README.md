@@ -6,5 +6,6 @@
 3. Крылов Денис
 # Ссылки
 ![Jiro](https://tp-task-manager.atlassian.net/jira/software/projects/T12/boards/1)
+<a href="https://tp-task-manager.atlassian.net/jira/software/projects/T12/boards/1)">Jiro</a> 
 <p href = "https://tp-task-manager.atlassian.net/jira/software/projects/T12/boards/1"> Jiro </p>
 Ссылка на miro: https://miro.com/app/board/uXjVPhwKcxY=/?share_link_id=359597867448
