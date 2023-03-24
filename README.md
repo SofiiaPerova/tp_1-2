@@ -13,4 +13,6 @@
 
 [ТЗ](https://github.com/SofiiaPerova/tp_1-2/blob/main/documents/%D0%A2%D0%97.pdf)
 
+[Диаграммы](https://github.com/SofiiaPerova/tp_1-2/tree/main/documents/diagrams)
+
 
