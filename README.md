@@ -5,4 +5,5 @@
 2. Перова София
 3. Крылов Денис
 # Ссылки
-Ссылка на Jiro https://tp-task-manager.atlassian.net/jira/software/projects/T12/boards/1
+Ссылка на Jiro [url=https://tp-task-manager.atlassian.net/jira/software/projects/T12/boards/1] Jiro [/url]
+Ссылка на miro: https://miro.com/app/board/uXjVPhwKcxY=/?share_link_id=359597867448
