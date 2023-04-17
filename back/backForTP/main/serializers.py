@@ -9,6 +9,8 @@ class UserCustomSerializer(serializers.ModelSerializer) :
         model = User
         fields = "__all__"
 
+
+
 class dataSerializer(serializers.ModelSerializer):
     userID = serializers.StringRelatedField()
 
@@ -16,9 +18,16 @@ class dataSerializer(serializers.ModelSerializer):
         model = Data
         fields = '__all__'
 
+
+
 class invoiceSerializer(serializers.ModelSerializer) :
     class Meta:
         model = Invoice
+        fields = '__all__'
+
+class Costs(serializers.ModelSerializer) :
+    class Meta:
+        model = Costs
         fields = '__all__'
 
 

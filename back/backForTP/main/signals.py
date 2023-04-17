@@ -4,33 +4,64 @@ from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
 from rest_framework.exceptions import ValidationError
 
-from main.models import Invoice, Data, User
+from main.models import *
 
-# @receiver(pre_save, sender=Data)
-# def CreateMeter(sender, instance, **kwargs):
-#     data = instance
-#     previous_record = Data.objects.filter(userID=data.userID).order_by('-date')[1]
-#     if previous_record:
-#         if (int(data.gas) < int(previous_record.gas)) :
-#             raise ValidationError('Gas fields must be larger than the previous record')
-#             if (int(data.water) < int(previous_record.water)) :
-#                 raise ValidationError('Water fields must be larger than the previous record')
-#             if (int(data.electro) <= int(previous_record.electro)) :
-#                 raise ValidationError('Electro fields must be larger than the previous record')
-#     instance.save()
+
+
 @receiver(pre_save, sender=Data)
 def check_previous_record(sender, instance, **kwargs):
     try:
-        previous_record = Data.objects.filter(userID=instance.userID).order_by('-date')[0]
-        if previous_record:
-            if int(instance.gas) <= int(previous_record.gas):
-                raise ValueError('Gas reading should be larger than the previous record')
-            if int(instance.water) <= int(previous_record.water):
-                raise ValueError('Water reading should be larger than the previous record')
-            if int(instance.electro) <= int(previous_record.electro):
-                raise ValueError('Electro reading should be larger than the previous record')
+        user = User.objects.get(username=instance.userID)
+        if user.data_set.count() > 0 :
+            previous_record = Data.objects.filter(userID=instance.userID).order_by('-date')[0]
+            if previous_record:
+                if int(instance.gas) <= int(previous_record.gas):
+                    raise ValueError('Gas reading should be larger than the previous record')
+                if int(instance.water) <= int(previous_record.water):
+                    raise ValueError('Water reading should be larger than the previous record')
+                if int(instance.electro) <= int(previous_record.electro):
+                    raise ValueError('Electro reading should be larger than the previous record')
     except Data.DoesNotExist:
         pass
+
+@receiver(pre_save, sender=Data)
+def createCosts(sender, instance, **kwargs) :
+    data1 = instance
+    user = User.objects.get(username=data1.userID)
+    if (user.data_set.count() > 0) :
+        data2 = Data.objects.filter(userID=user.pk).order_by('-date')[0]
+        gas = int(data1.gas) - int(data2.gas)
+        water = int(data1.water) - int(data2.water)
+        electro = int(data1.electro) - int(data2.electro)
+    else:
+        gas = data1.gas
+        water = data1.water
+        electro =  data1.electro
+    cost = Costs.objects.create(gasCost = gas, waterCost = water, electroCost = electro,
+                                userID = user.username)
+    data1.costs = cost
+    cost.save()
+
+
+@receiver(post_save, sender=Data)
+def createInvoice(sender, instance, **kwargs) :
+    user = User.objects.get(username = instance.userID)
+    instance = instance.costs
+    gasSumm = int(int(instance.gasCost) * 6.9)
+    waterSumm = int(int(instance.waterCost) * 28)
+    electroSumm = int(int(instance.electroCost) * 4.85)
+    trashSumm = user.residents * 100
+    Invoice.objects.create(
+        gasSumm =  gasSumm,
+        waterSumm = waterSumm,
+        electroSumm = electroSumm,
+        trashSumm = trashSumm,
+        repairSumm = 200,
+        total = gasSumm + electroSumm + waterSumm + trashSumm + 100,
+        userID = user
+    )
+
+
 
 # @receiver(pre_save, sender=Data)
 # def check(sender, instance, **kwargs) :

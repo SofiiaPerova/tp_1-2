@@ -7,29 +7,18 @@ from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
 from rest_framework.exceptions import ValidationError
 
-
-# Create your models here.
-
 class User(AbstractUser) :
     licSchet = models.CharField(max_length=11, unique=True)
     # username = models.EmailField(unique=True)
     date = models.DateField(auto_now_add=True)
     username = models.EmailField(unique=True)
+    residents = models.IntegerField(default=3)
 
 
     REQUIRED_FIELDS = ['licSchet','is_superuser']
 
     def __str__(self):
         return self.username
-
-    # @property
-    # def token(self):
-    #     return self._ge
-    #
-    # def _generate_jwt_token(self):
-    #     dt = datetime.now() + timedelta(days=30)
-
-
 
 class Invoice(models.Model) :
     gasSumm = models.CharField(max_length=10)
@@ -46,7 +35,15 @@ class Data(models.Model) :
     water = models.CharField(max_length=10)
     electro = models.CharField(max_length=10)
     date = models.DateTimeField(auto_now_add=True)
-    userID = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    userID = models.ForeignKey(User, on_delete=models.CASCADE)
+    costs = models.OneToOneField('Costs', on_delete=models.CASCADE, null=True)
+
+class Costs(models.Model) :
+    gasCost = models.CharField(max_length=10)
+    waterCost = models.CharField(max_length=10)
+    electroCost = models.CharField(max_length=10)
+    userID = models.CharField(max_length=30)
+
 
     # def save(self, *args, **kwargs):
     #         previous_record = Data.objects.filter(userID=self.userID).order_by('-date').last()
