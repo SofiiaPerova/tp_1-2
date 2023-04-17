@@ -8,9 +8,10 @@ from main.models import *
 
 
 
-@receiver(pre_save, sender=Data)
+@receiver(pre_save, sender=Costs)
 def check_previous_record(sender, instance, **kwargs):
     try:
+        instance = instance.data
         user = User.objects.get(username=instance.userID)
         if user.data_set.count() > 0 :
             previous_record = Data.objects.filter(userID=instance.userID).order_by('-date')[0]
@@ -38,7 +39,7 @@ def createCosts(sender, instance, **kwargs) :
         water = data1.water
         electro =  data1.electro
     cost = Costs.objects.create(gasCost = gas, waterCost = water, electroCost = electro,
-                                userID = user.username)
+                                userID = user)
     data1.costs = cost
     cost.save()
 
