@@ -24,7 +24,7 @@ class InvoiceInline(admin.StackedInline):
     verbose_name_plural = 'Квитанции'
     classes = ['collapse']
     fields = ['gasSumm', 'waterSumm','electroSumm',
-              'total', 'trashSumm', 'repairSumm' ,'date']
+              'trashSumm', 'repairSumm', 'total','date']
     readonly_fields = ['date']
     verbose_name = 'Квитанция за '
     verbose_name_plural = 'Квитанции'
@@ -41,10 +41,10 @@ class CostsInLine(admin.StackedInline) :
     verbose_name_plural = 'Потребление услуг'
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('username', 'licSchet', 'id')
-    list_filter = ('licSchet', 'username')
-    search_fields = ['licSchet', 'username']
-    exclude = ('password', 'first_name', 'last_name', 'email',
+    list_display = ('email', 'licSchet', 'id')
+    list_filter = ('licSchet', 'email')
+    search_fields = ['licSchet', 'email']
+    exclude = ('password', 'first_name', 'last_name',
                'date', 'date_joined', 'last_login', 'group')
     inlines = [MeterInline, CostsInLine, InvoiceInline]
 
@@ -69,20 +69,20 @@ class UserAdmin(admin.ModelAdmin):
 
 
 class CustomUserAdmin(UserAdmin):
-    list_display = ('username', 'licSchet', 'residents', 'is_staff', 'is_active',)
+    list_display = ('email', 'licSchet', 'residents', 'is_staff', 'is_active',)
     list_filter = ('is_staff', 'is_active')
-    search_fields = ('username', 'licSchet')
+    search_fields = ('email', 'licSchet')
 
 
     fieldsets = (
-        (None, {'fields': ('username', 'licSchet', 'residents')}),
+        (None, {'fields': ('email', 'licSchet', 'residents')}),
         (('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser')}),
 
     )
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('username', 'licSchet', 'password1', 'password2'),
+            'fields': ('email', 'licSchet', 'password1', 'password2'),
         }),
     )
 

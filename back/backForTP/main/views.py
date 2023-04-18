@@ -1,19 +1,35 @@
 from django.http import JsonResponse
-from django.shortcuts import render
+from djoser.views import UserViewSet
 from rest_framework import generics
 from rest_framework.generics import get_object_or_404
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.views import *
 from .models import *
 from .premissions import IsOwnerOrAdmin
-from .serializers import dataSerializer, UserSerializer, UserCustomSerializer, dataSerializer, invoiceSerializer
+from .serializers import *
 
 
-class allUsers(generics.ListAPIView) :
+
+class ActivateUser(UserViewSet):   # Активация аккаунта по ссылке на почту
+    def get_serializer(self, *args, **kwargs):
+        serializer_class = self.get_serializer_class()
+        kwargs.setdefault('context', self.get_serializer_context())
+
+        # this line is the only change from the base implementation.
+        kwargs['data'] = {"uid": self.kwargs['uid'], "token": self.kwargs['token']}
+
+        return serializer_class(*args, **kwargs)
+
+    def activation(self, request, uid, token, *args, **kwargs):
+        super().activation(request, *args, **kwargs)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+class allUsers(generics.ListAPIView) : # Вывод данных всех пользователей
     queryset = User.objects.all()
     serializer_class = UserCustomSerializer
+    permission_classes = [IsAdminUser, ]
 
-class UserProfile(generics.ListCreateAPIView) : # Данные пользователя
+class UserProfile(generics.RetrieveUpdateAPIView) : # Данные пользователя
     queryset = User.objects.all()
     serializer_class = UserCustomSerializer
     permission_classes = [IsOwnerOrAdmin, ]
@@ -22,86 +38,11 @@ class UserProfile(generics.ListCreateAPIView) : # Данные пользова�
 class postMeterUser(generics.CreateAPIView) :  # Ввод показаний счетчика + сразу создается счет
     queryset = Data.objects.all()
     serializer_class = dataSerializer
-    permission_classes = (IsAuthenticated,)
+    permission_classes = [IsAuthenticated,]
 
     def perform_create(self, serializer):
         serializer.save(userID=self.request.user)
 
-
-    # def deleteOld(self):
-    # def create(self, request, *args, **kwargs):
-    #     data = request
-    #     user = User.objects.get(username=data.userID)
-    #     gas = data.gas
-    #     water = data.water
-    #     electro = data.electro
-    #     now = datetime.now()
-    #
-    #     if (user.data_set.count() > 0):
-    #         data2 = Data.objects.filter(userID=user.pk).order_by('-date')[0]
-    #
-    #         if (data2.date.month == now.month and data2.date.year == now.year):
-    #
-    #             data2.gas = gas
-    #             data2.water = water
-    #             data2.electro = electro
-    #             data2.date = now
-    #
-    #             if (user.data_set.count() > 1):
-    #                 dataOneAgo = Data.objects.filter(userID=user.pk).order_by('-date')[1]
-    #                 invoice = Invoice.objects.filter(userID=user.pk).order_by('-date')[0]
-    #                 gasSumm = (int(gas) - int(dataOneAgo.gas)) * 6.9
-    #                 waterSumm = (int(water) - int(dataOneAgo.water)) * 28
-    #                 electroSumm = (int(electro) - int(dataOneAgo.electro)) * 4.85
-    #                 invoice.gasSumm = round(gasSumm, 2)
-    #                 invoice.waterSumm = round(waterSumm, 2)
-    #                 invoice.electroSumm = round(electroSumm, 2)
-    #                 total = invoice.gasSumm + invoice.waterSumm + invoice.electroSumm + int(invoice.repairSumm) + int(
-    #                     invoice.trashSumm)
-    #                 invoice.total = total
-    #                 invoice.save()
-    #             else:
-    #                 invoice = Invoice.objects.filter(userID=user.pk).order_by('-date')[0]
-    #                 gasSumm = int(gas) * 6.9
-    #                 waterSumm = int(water) * 28
-    #                 electroSumm = int(electro) * 4.85
-    #                 invoice.gasSumm = round(gasSumm, 2)
-    #                 invoice.waterSumm = round(waterSumm, 2)
-    #                 invoice.electroSumm = round(electroSumm, 2)
-    #                 invoice.repairSumm = 100
-    #                 invoice.trashSumm = 100
-    #                 invoice.total = invoice.gasSumm + invoice.waterSumm + invoice.electroSumm + invoice.repairSumm + invoice.trashSumm
-    #                 invoice.save()
-    #
-    #
-    #
-    #
-    #         else:
-    #             gas = (int(gas) - int(data2.gas)) * 6.9
-    #             water = (int(water) - int(data2.water)) * 28
-    #             electro = (int(electro) - int(data2.electro)) * 4.85
-    #             Invoice.objects.create(
-    #                 gasSumm=round(gas, 2),
-    #                 waterSumm=round(water, 2),
-    #                 electroSumm=round(electro, 2),
-    #                 trashSumm=100,
-    #                 repairSumm=100,
-    #                 total=gas + water + electro + 200,
-    #                 userID=data.userID
-    #             )
-    #     else:
-    #         Invoice.objects.create(
-    #             gasSumm=round(int(gas) * 6.9),
-    #             waterSumm=round(int(water) * 28),
-    #             electroSumm=round(int(electro) * 4.85),
-    #             trashSumm=100,
-    #             repairSumm=100,
-    #             total=int(gas) + int(water) + int(electro) + 200,
-    #             userID=data.userID
-    #         )
-    #
-    #     Invoice.objects.filter(userID=self.request.user.pk).order_by('-date')[3:].delete()
-    #     Data.objects.filter(userID=self.request.user.pk).order_by('-date')[3:].delete()
 
 class getAllInvoiceUser(generics.ListAPIView) : # Выдает все счета
     queryset = Invoice.objects.all()
@@ -139,7 +80,7 @@ class getMeterUser(APIView) : ## Выдает показания за после
 
 class getGasMeter(APIView) : # Вывод трат газа за 3 месяца
     def get(self, request):
-        user = get_object_or_404(User, username=self.request.user.username)
+        user = get_object_or_404(User, email=self.request.user.email)
         costs = Costs.objects.filter(userID=user).order_by('-id')[:3]
         gas_costs = [cost.gasCost for cost in costs]
         return JsonResponse({'gas_costs': gas_costs})
@@ -148,18 +89,28 @@ class getGasMeter(APIView) : # Вывод трат газа за 3 месяца
 
 class getWaterMeter(APIView) : # Вывод трат воды за 3 месяца
     def get(self, request):
-        user = get_object_or_404(User, username=self.request.user.username)
+        user = get_object_or_404(User, email=self.request.user.email)
         costs = Costs.objects.filter(userID=user).order_by('-id')[:3]
-        gas_costs = [cost.waterCosts for cost in costs]
+        gas_costs = [cost.waterCost for cost in costs]
         return JsonResponse({'water_costs': gas_costs})
 
 
 class getElectroMeter(APIView) : # Вывод трат энергии за 3 месяца
     def get(self, request):
-        user = get_object_or_404(User, username=self.request.user.username)
+        user = get_object_or_404(User, email=self.request.user.email)
         costs = Costs.objects.filter(userID=user).order_by('-id')[:3]
         gas_costs = [cost.electroCost for cost in costs]
         return JsonResponse({'electro_costs': gas_costs})
+
+
+class allUserData(generics.RetrieveUpdateDestroyAPIView) :
+    queryset = User.objects.all()
+    serializer_class = AdminSerializer
+    lookup_url_kwarg = 'id'
+    permission_classes = [IsAdminUser,]
+    # dd
+
+
 
 
 

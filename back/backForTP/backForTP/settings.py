@@ -190,7 +190,16 @@ DJOSER = {
 
     'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
     'USERNAME_RESET_CONFIRM_URL': '#/username/reset/confirm/{uid}/{token}',
-    'ACTIVATION_URL': '#/activate/{uid}/{token}',
-    'SEND_ACTIVATION_EMAIL': False,
-    'SERIALIZERS': {},
+    'ACTIVATION_URL': "api/v1/user/activate/{uid}/{token}",
+    'SEND_ACTIVATION_EMAIL': True,
+    'USER_CREATE_PASSWORD_RETYPE': True,
+    'LOGIN_FIELD': 'email',
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'denistestfortp@mail.ru'
+EMAIL_HOST_PASSWORD = 'v0RwEJwzrdKkzRqS8P9g'
+DEFAULT_FROM_EMAIL = 'denistestfortp@mail.ru'

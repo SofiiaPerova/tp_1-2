@@ -24,17 +24,22 @@ from main.views import *
 from .yasg import urlpatterns as swagger
 
 urlpatterns = [
-    path('admin/', admin.site.urls),                                                  # Админка
-    path('api/v1/users/', allUsers.as_view()),                                        # Вывод всех пользователей
-    path('api/v1/user/inputMeter/', postMeterUser.as_view()),                         # Ввод показаний со счетчиков
-    path('api/v1/user/statistics/meter/all/', getAllMeterUser.as_view()),             # Все показания пользователя
-    path('api/v1/user/statistics/meter/', getMeterUser.as_view()),                    # Показания пользователя за 3 месяца
-    path('api/v1/user/statistics/invoice/all/', getAllInvoiceUser.as_view()),         # Все квитанции
-    path('api/v1/user/statistics/invoice/<monthsAgo>/', getInvoiceUser.as_view()),    # Квитанция с указаниям месца ( 1 - прошлый месяц, 2 - пазопрошлый, 3 - два месяца назад)
-    path('api/v1/user/profile/', UserProfile.as_view()),                              # Данные пользователя
-    path('api/v1/user/getGasMeter/', getGasMeter.as_view()),                          # Траты газа за 3 месяца
-    path('api/v1/user/getGasMeter/', getWaterMeter.as_view()),                        # Траты воды за 3 месяца
-    path('api/v1/user/getGasMeter/', getElectroMeter.as_view()),                      # Траты энергии за 3 месяца
+
+    path('admin/', admin.site.urls),                                                        # Админка
+    path('api/v1/admin/user/<id>', allUserData.as_view()),                                  # Вывод всей информации по пользователю для Админки
+    path('api/v1/users/', allUsers.as_view()),                                              # Вывод всех пользователей
+
+
+    path('api/v1/user/inputMeter/', postMeterUser.as_view()),                               # Ввод показаний со счетчиков
+    path('api/v1/user/statistics/meter/all/', getAllMeterUser.as_view()),                   # Все показания пользователя
+    path('api/v1/user/statistics/meter/', getMeterUser.as_view()),                          # Показания пользователя за 3 месяца
+    path('api/v1/user/statistics/invoice/all/', getAllInvoiceUser.as_view()),               # Все квитанции
+    path('api/v1/user/statistics/invoice/<int:monthsAgo>/', getInvoiceUser.as_view()),      # Квитанция с указаниям месца ( 1 - прошлый месяц, 2 - пазопрошлый, 3 - два месяца назад)
+    path('api/v1/user/profile/', UserProfile.as_view()),                                    # Данные пользователя
+    path('api/v1/user/getGasMeter/', getGasMeter.as_view()),                                # Траты газа за 3 месяца
+    path('api/v1/user/getWaterMeter/', getWaterMeter.as_view()),                            # Траты воды за 3 месяца
+    path('api/v1/user/getElectroMeter/', getElectroMeter.as_view()),                        # Траты энергии за 3 месяца
+    path('api/v1/user/activate/<uid>/<token>', ActivateUser.as_view({'get': 'activation'}), name='activation'), #Активация аккаунта
 
 
     path('auth/', include('djoser.urls')),          # регистрация и авторизация
