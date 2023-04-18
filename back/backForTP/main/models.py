@@ -1,12 +1,9 @@
-from datetime import datetime, timedelta
-
 from django.contrib.auth.base_user import BaseUserManager
-from django.contrib.auth.models import AbstractUser, PermissionsMixin, UserManager
+from django.contrib.auth.models import AbstractUser, PermissionsMixin
 from django.db import models
-import jwt
-from django.db.models.signals import pre_save, post_save
-from django.dispatch import receiver
-from rest_framework.exceptions import ValidationError
+from .validators import *
+
+
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -31,12 +28,14 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractUser, PermissionsMixin) :
-    licSchet = models.CharField("Лицевой Счет",max_length=11, unique=True)
+    licSchet = models.CharField("Лицевой Счет",max_length=11, unique=True, validators=[validate_licSchet])
     date = models.DateField("Дата создания аккаунта", auto_now_add=True)
     email = models.EmailField("Почта", unique=True)
-    residents = models.IntegerField("Кол-во жильцов", default=3)
+    residents = models.IntegerField("Кол-во жильцов", default=3, validators=[validate_residents])
     is_active = models.BooleanField("active", default=False)
     username = None  # Удаляем поле 'username'
+    first_name = models.CharField("Имя" , max_length=20, blank=True, validators=[validate_first_name])
+    last_name = models.CharField("Фамилия", max_length=20, blank=True, validators=[validate_last_name])
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['licSchet', 'residents']
@@ -48,9 +47,9 @@ class User(AbstractUser, PermissionsMixin) :
         return self.email
 
 class Invoice(models.Model) :
-    gasSumm = models.CharField("Сумма за газ", max_length=10)
-    waterSumm = models.CharField("Сумма за воду", max_length=10)
-    electroSumm = models.CharField("Сумма за энергию", max_length=10)
+    gasSumm = models.CharField("Сумма за газ", max_length=10, validators=[validate_gasSumm])
+    waterSumm = models.CharField("Сумма за воду", max_length=10, validators=[validate_waterSumm])
+    electroSumm = models.CharField("Сумма за энергию", max_length=10, validators=[validate_electroSumm])
     trashSumm = models.CharField("Сумма за мусор", max_length=10)
     repairSumm = models.CharField("Сумма за обслуживание дома", max_length=10)
     total = models.CharField("Общая сумма", max_length=10)
