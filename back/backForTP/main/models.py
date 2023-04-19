@@ -31,7 +31,7 @@ class User(AbstractUser, PermissionsMixin) :
     licSchet = models.CharField("Лицевой Счет",max_length=11, unique=True, validators=[validate_licSchet])
     date = models.DateField("Дата создания аккаунта", auto_now_add=True)
     email = models.EmailField("Почта", unique=True)
-    residents = models.IntegerField("Кол-во жильцов", default=3, validators=[validate_residents])
+    residents = models.CharField("Кол-во жильцов", default='3', validators=[validate_residents], max_length=1)
     is_active = models.BooleanField("active", default=False)
     username = None  # Удаляем поле 'username'
     first_name = models.CharField("Имя" , max_length=20, blank=True, validators=[validate_first_name])

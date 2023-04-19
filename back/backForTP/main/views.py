@@ -24,6 +24,11 @@ class ActivateUser(UserViewSet):   # Активация аккаунта по с
         super().activation(request, *args, **kwargs)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+class AdminRegistrationView(generics.CreateAPIView) : # Регистрация админа
+    queryset = User.objects.all()
+    serializer_class = AdminSerializer
+    permission_classes = [IsAdminUser, ]
+
 class allUsers(generics.ListAPIView) : # Вывод данных всех пользователей
     queryset = User.objects.all()
     serializer_class = UserCustomSerializer

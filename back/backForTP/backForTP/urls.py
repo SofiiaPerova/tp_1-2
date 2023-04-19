@@ -26,6 +26,7 @@ from .yasg import urlpatterns as swagger
 urlpatterns = [
 
     path('admin/', admin.site.urls),                                                        # Админка
+    path('api/v1/admin/create/', AdminRegistrationView.as_view()),
     path('api/v1/admin/user/<id>', allUserData.as_view()),                                  # Вывод всей информации по пользователю для Админки
     path('api/v1/users/', allUsers.as_view()),                                              # Вывод всех пользователей
 
