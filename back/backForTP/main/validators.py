@@ -4,7 +4,7 @@ from rest_framework.exceptions import ValidationError
 
 
 def validate_licSchet(value) :
-    if not re.match('\d{2}[A-B]{2}\d{6}', value):
+    if not re.match('\d{2}[A-Z]{2}\d{6}', value):
         raise ValidationError('Лицевой счет должен содержать 2 цифры + 2 заглавные латинские буквы + 6 цифр')
 
 def validate_residents(value) :
