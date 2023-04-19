@@ -57,7 +57,7 @@ def createInvoice(sender, instance, **kwargs) :
     gasSumm = int(int(instance.gasCost) * 6.9)
     waterSumm = int(int(instance.waterCost) * 28)
     electroSumm = int(int(instance.electroCost) * 4.85)
-    trashSumm = user.residents * 100
+    trashSumm = int(user.residents) * 100
     Invoice.objects.create(
         gasSumm =  gasSumm,
         waterSumm = waterSumm,
