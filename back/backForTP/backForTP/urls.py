@@ -15,44 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView, TokenVerifyView,
-)
-
-from main.views import *
 from .yasg import urlpatterns as swagger
 
 
 urlpatterns = [
-
     path('admin/', admin.site.urls),                                                        # Админка
-    path('api/v1/admin/create/', AdminRegistrationView.as_view()),
-    path('api/v1/admin/user/<id>', allUserData.as_view()),                                  # Вывод всей информации по пользователю для Админки
-    path('api/v1/users/', allUsers.as_view()),                                              # Вывод всех пользователей
-
-
-    path('api/v1/user/inputMeter/', postMeterUser.as_view()),                               # Ввод показаний со счетчиков
-    path('api/v1/user/statistics/meter/all/', getAllMeterUser.as_view()),                   # Все показания пользователя
-    path('api/v1/user/statistics/meter/', getMeterUser.as_view()),                          # Показания пользователя за 3 месяца
-    path('api/v1/user/statistics/invoice/all/', getAllInvoiceUser.as_view()),               # Все квитанции
-    path('api/v1/user/statistics/invoice/<int:monthsAgo>/', getInvoiceUser.as_view()),      # Квитанция с указаниям месца ( 1 - прошлый месяц, 2 - пазопрошлый, 3 - два месяца назад)
-    path('api/v1/user/profile/', UserProfile.as_view()),                                    # Данные пользователя
-    path('api/v1/user/getGasMeter/', getGasMeter.as_view()),                                # Траты газа за 3 месяца
-    path('api/v1/user/getWaterMeter/', getWaterMeter.as_view()),                            # Траты воды за 3 месяца
-    path('api/v1/user/getElectroMeter/', getElectroMeter.as_view()),                        # Траты энергии за 3 месяца
-    path('api/v1/user/activate/<uid>/<token>', ActivateUser.as_view({'get': 'activation'}), name='activation'), #Активация аккаунта
-
-
-    path('auth/password/reset/', PasswordResetView.as_view(), name='password_reset'),
-    path('password_reset/done/', PasswordResetDoneView.as_view(), name='password_reset_done'),
-    path('auth/password/reset/confirm/<str:uidb64>/<str:token>/', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
-    path('auth/password/reset/complite/', PasswordResetCompleteView.as_view(), name='password_reset_complete'),
-
-
-    path('auth/', include('djoser.urls')),          # регистрация и авторизация
-    path('auth/', include('djoser.urls.jwt')),      # получение токена
-
+    path('auth/', include('authUser.urls')), # Регистрация, авторизация, смена пароля...
+    path('api/v1/', include('main.urls')), # Функции пользователя + админа
 ]
 
 urlpatterns += swagger # url для сваггера
