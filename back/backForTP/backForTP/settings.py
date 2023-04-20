@@ -188,7 +188,8 @@ SIMPLE_JWT = {
 
 DJOSER = {
 
-    'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
+    'PASSWORD_RESET_CONFIRM_URL': '/auth/password/reset/confirm/{uidb64}/{token}',
+    'PASSWORD_RESET_CONFIRM_VIEW': 'backForTP.main.views.CustomPasswordResetConfirmView',
     'ACTIVATION_URL': "api/v1/user/activate/{uid}/{token}",
     'SEND_ACTIVATION_EMAIL': True,
     'USER_CREATE_PASSWORD_RETYPE': True,

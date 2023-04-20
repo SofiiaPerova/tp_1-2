@@ -23,6 +23,7 @@ from rest_framework_simplejwt.views import (
 from main.views import *
 from .yasg import urlpatterns as swagger
 
+
 urlpatterns = [
 
     path('admin/', admin.site.urls),                                                        # Админка
@@ -41,6 +42,12 @@ urlpatterns = [
     path('api/v1/user/getWaterMeter/', getWaterMeter.as_view()),                            # Траты воды за 3 месяца
     path('api/v1/user/getElectroMeter/', getElectroMeter.as_view()),                        # Траты энергии за 3 месяца
     path('api/v1/user/activate/<uid>/<token>', ActivateUser.as_view({'get': 'activation'}), name='activation'), #Активация аккаунта
+
+
+    path('auth/password/reset/', PasswordResetView.as_view(), name='password_reset'),
+    path('password_reset/done/', PasswordResetDoneView.as_view(), name='password_reset_done'),
+    path('auth/password/reset/confirm/<str:uidb64>/<str:token>/', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('auth/password/reset/complite/', PasswordResetCompleteView.as_view(), name='password_reset_complete'),
 
 
     path('auth/', include('djoser.urls')),          # регистрация и авторизация
