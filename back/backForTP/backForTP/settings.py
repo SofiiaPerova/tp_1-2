@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'djoser',
+    'corsheaders',
     'drf_yasg',
 
 ]
@@ -55,6 +56,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'backForTP.urls'
@@ -205,3 +208,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'denistestfortp@mail.ru'
 EMAIL_HOST_PASSWORD = 'v0RwEJwzrdKkzRqS8P9g'
 DEFAULT_FROM_EMAIL = 'denistestfortp@mail.ru'
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:8081',
+]
