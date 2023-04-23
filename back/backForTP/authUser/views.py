@@ -3,6 +3,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 
 from django.core.mail import send_mail
+from django.shortcuts import redirect
 
 from django.urls import reverse
 from django.utils.encoding import force_bytes
