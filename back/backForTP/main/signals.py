@@ -17,11 +17,11 @@ def check_previous_record(sender, instance, **kwargs):
             previous_record = Data.objects.filter(userID=instance.userID).order_by('-date')[0]
             if previous_record:
                 if int(instance.gas) <= int(previous_record.gas):
-                    raise ValueError('Gas reading should be larger than the previous record')
+                    raise ValueError('Показания газа должны быть больше предыдущих')
                 if int(instance.water) <= int(previous_record.water):
-                    raise ValueError('Water reading should be larger than the previous record')
+                    raise ValueError('Показания воды должны быть больше предыдущих')
                 if int(instance.electro) <= int(previous_record.electro):
-                    raise ValueError('Electro reading should be larger than the previous record')
+                    raise ValueError('Показания энергии должны быть больше предыдущих')
     except Data.DoesNotExist:
         pass
 
@@ -38,12 +38,12 @@ def createCosts(sender, instance, **kwargs) :
         gas = data1.gas
         water = data1.water
         electro =  data1.electro
-    if gas == 0 :
-        raise ValueError('Gas reading should be larger than the previous record')
-    if water == 0 :
-        raise ValueError('Water reading should be larger than the previous record')
-    if electro == 0 :
-        raise ValueError('Electro reading should be larger than the previous record')
+    if int(gas) <= 0 :
+        raise ValidationError('Показания газа должны быть больше предыдущих')
+    if int(water) <= 0 :
+        raise ValidationError('Показания воды должны быть больше предыдущих')
+    if int(electro) <= 0 :
+        raise ValidationError('Показания энергии должны быть больше предыдущих')
     cost = Costs.objects.create(gasCost = gas, waterCost = water, electroCost = electro,
                                 userID = user)
     data1.costs = cost

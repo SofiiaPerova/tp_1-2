@@ -125,7 +125,8 @@ class getGasMeter(APIView) : # Вывод трат газа за 3 месяца
         user = get_object_or_404(User, email=self.request.user.email)
         costs = Costs.objects.filter(userID=user).order_by('-id')[:3]
         gas_costs = [cost.gasCost for cost in costs]
-        return JsonResponse({'gas_costs': gas_costs})
+        gas_date = [cost.date.date() for cost in costs]
+        return JsonResponse({'costs': gas_costs, 'date': gas_date})
 
 
 
@@ -133,16 +134,18 @@ class getWaterMeter(APIView) : # Вывод трат воды за 3 месяц�
     def get(self, request):
         user = get_object_or_404(User, email=self.request.user.email)
         costs = Costs.objects.filter(userID=user).order_by('-id')[:3]
-        gas_costs = [cost.waterCost for cost in costs]
-        return JsonResponse({'water_costs': gas_costs})
+        water_costs = [cost.waterCost for cost in costs]
+        water_date = [cost.date.date() for cost in costs]
+        return JsonResponse({'costs': water_costs, 'date': water_date})
 
 
 class getElectroMeter(APIView) : # Вывод трат энергии за 3 месяца
     def get(self, request):
         user = get_object_or_404(User, email=self.request.user.email)
         costs = Costs.objects.filter(userID=user).order_by('-id')[:3]
-        gas_costs = [cost.electroCost for cost in costs]
-        return JsonResponse({'electro_costs': gas_costs})
+        electro_costs = [cost.electroCost for cost in costs]
+        electro_date = [cost.date.date() for cost in costs]
+        return JsonResponse({'costs': electro_costs, 'date' : electro_date})
 
 
 class allUserData(generics.RetrieveUpdateDestroyAPIView) :
