@@ -25,6 +25,8 @@ SECRET_KEY = 'django-insecure-wx^vn_fxe)$wfjs1r3s4^)469*&p+0!8i$04oif-dqdkwnl=(z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+FRONTEND_URL = 'localhost:8080'
+
 ALLOWED_HOSTS = []
 
 
@@ -192,13 +194,21 @@ SIMPLE_JWT = {
 }
 
 DJOSER = {
-
-    'PASSWORD_RESET_CONFIRM_URL': '/auth/password/reset/confirm/{uidb64}/{token}',
+    'DOMAIN_OVERRIDE' : 'http://localhost:8080/',
+    'PASSWORD_RESET_CONFIRM_URL': '/recovery_pass_2/{uidb64}/{token}',
     'PASSWORD_RESET_CONFIRM_VIEW': 'backForTP.main.views.CustomPasswordResetConfirmView',
     'ACTIVATION_URL': "auth/activate/{uid}/{token}",
+    'PASSWORD_RESET_SERIALIZER':'custom_serializers.CustomPasswordResetSerializer',
     'SEND_ACTIVATION_EMAIL': True,
     'USER_CREATE_PASSWORD_RETYPE': True,
     'LOGIN_FIELD': 'email',
+    'EMAIL': {
+        'activation': 'djoser.email.ActivationEmail',
+        'confirmation': 'djoser.email.ConfirmationEmail',
+        'password_reset': 'customDjoser.CustomPasswordResetEmail', # set your custom email class here
+        'password_changed_confirmation': 'djoser.email.PasswordChangedConfirmationEmail',
+        'username_reset': 'djoser.email.UsernameResetEmail',
+    },
 }
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -212,4 +222,5 @@ DEFAULT_FROM_EMAIL = 'denistestfortp@mail.ru'
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:8081',
     'http://localhost:8080',
+    'http://192.168.3.2:8080'
 ]
