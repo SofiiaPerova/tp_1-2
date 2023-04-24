@@ -7,6 +7,8 @@
 # Ссылки
 [Miro](https://miro.com/app/board/uXjVPhwKcxY=/?share_link_id=3595978674481)
 
+[Figma - интерактивный прототип](https://www.figma.com/file/GgbEZk4ULs4jx0dbqQBhxD/Untitled?node-id=1%3A2&t=5dXsrv4S4VSqIxdC-1)
+
 [Jira](https://tp-task-manager.atlassian.net/jira/software/projects/T12/boards/1)
 
 [Курсовой проект](https://github.com/SofiiaPerova/tp_1-2/blob/main/documents/%D0%9A%D1%83%D1%80%D1%81%D0%BE%D0%B2%D0%BE%D0%B9%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82.pdf)
