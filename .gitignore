@@ -1,8 +1,0 @@
-back/.idea
-.idea
-venv
-back/backForTP/main/migrations/*
-back/backForTP/main/__pycache__/
-back/backForTP/backForTP/__pycache__/
-back/backForTP/authUser/__pycache__/
-back/backForTP/authUser/migrations/*
