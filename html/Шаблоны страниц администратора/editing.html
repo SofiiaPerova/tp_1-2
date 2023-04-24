@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Bootstrap Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Подключаем библиотеку Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+
+</head>
+<div id="app1">
+<body style="height: 100vh; padding: 0 10%">
+    <nav class="navbar navbar-expand-lg navbar-light"
+    style="padding: .5rem 1rem;
+    padding-top: 0.5rem;
+    padding-right: 1rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+    background-color: rgba(221, 238, 255, 1);">
+    <div class="container-fluid">
+      <!-- <a class="navbar-brand" href="#">УК</a> -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+      aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Переключатель навигации">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class=" row collapse navbar-collapse  px-3 pt-2" id="navbarNavAltMarkup" style="align-items: flex-start;">
+      <div class="col-4 navbar-nav mb-2 mb-lg-0">
+        <a class="nav-link active" href="base_page.html">Главная</a>
+      </div>
+      <div class="col-4  navbar-nav " style="
+    justify-content: center">
+      <i class="bi bi-person-circle" style="font-size: 2rem;" aria-hidden="true"></i>
+      </div>
+      <div class="col-4 navbar-nav" style="justify-content: right;">
+        <a class="nav-link" href="profile.html">Профиль</a>
+        <a class="nav-link" href="base_page.html">Выход</a>
+      </div>
+    </div>
+  </div>
+</nav>
+    <div class="container">
+        <h3 class="my-2 py-2" style="border: 1px solid rgb(240, 240, 240); text-indent: 10px;">Редактирование</h3>
+
+        <div class="row ps-2">
+        <div class="col-md-6 my-3">
+
+            <div class="mb-3 row pb-4" style="border-bottom: 1px solid #f0f0f0;">
+                <label for="form1" class="col-sm-4 col-form-label">Email: </label>
+                <div class="col-sm-8">
+                  <input v-bind:placeholder="residents[1].email" type="email" class="form-control" id="form1">
+                </div>
+            </div>
+
+            <div class="mb-3 row pb-4" style="border-bottom: 1px solid #f0f0f0;">
+                <label for="form2" class="col-sm-4 col-form-label">Лицевой счет: </label>
+                <div class="col-sm-8">
+                  <input v-bind:placeholder="residents[1].licSchet" type="text" class="form-control" id="form2">
+                </div>
+            </div>
+
+            <div class="mb-3 row pb-4" style="border-bottom: 1px solid #f0f0f0;">
+                <label for="form3" class="col-sm-4 col-form-label">Кол-во жильцов: </label>
+                <div class="col-sm-8">
+                  <input v-bind:placeholder="residents[1].residents" type="text" class="form-control" id="form3">
+                </div>
+            </div>
+
+        </div>
+        </div>
+        <div>
+        <div>
+            <div class="mb-4">
+                <h4 class="my-2 py-2" style="border: 1px solid rgb(240, 240, 240);text-indent: 10px;">Разрешения</h4>
+            </div>
+
+            <div class="form-check pb-2">
+                <input v-if="residents[1].is_active == 'true'" class="form-check-input" type="checkbox" id="check1" checked>
+                <input v-if="residents[1].is_active == 'false'" class="form-check-input" type="checkbox" id="check1" unchecked>
+                <label class="form-check-label" for="check1">Активирован</label>
+            </div>
+            <div class="form-check pb-2">
+                <input v-if="residents[1].is_staff == 'true'" class="form-check-input" type="checkbox" id="check2" checked>
+                <input v-if="residents[1].is_staff == 'false'" class="form-check-input" type="checkbox" id="check2" unchecked>
+                <label class="form-check-label" for="check2">Администратор</label>
+            </div>
+            <div class="pb-2">
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">Показания счетчиков</button>
+                    </h2>
+
+                    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne">
+                        <div class="accordion-body">
+                            <div class="row my-3 mx-auto" style="justify-content: center;">
+                                <div class="col-lg-9 card" style="border-radius: 15px;">
+                                    <div class="card-body">
+                                        <div class="py-4" style="display: block;">
+                                            <div class="mb-3 row">
+                                              <label class="col-sm-4 col-form-label" for="date1">Показания за: </label>
+                                                <div class="col-sm-3">
+                                                    <input type="text" class="form-control me-2" id="date1" placeholder="21.01.2023">
+                                                </div>
+                                                <button type="submit" class="col-sm-2 btn btn-primary">Удалить</button>
+                                            </div>
+
+                                        </div>
+                                        <div class="mb-3 row">
+                                            <label for="form1" class="col-sm-4 col-form-label">Показания газового счетчика:</label>
+                                            <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="form1">
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3 row">
+                                            <label for="form2" class="col-sm-4 col-form-label">Показания водяного счетчика:</label>
+                                            <div class="col-sm-8">
+                                              <input type="text" class="form-control" id="form2">
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3 row">
+                                            <label for="form3" class="col-sm-4 col-form-label">Показания счетчика энергии:</label>
+                                            <div class="col-sm-8">
+                                              <input type="text" class="form-control" id="form3">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pb-4" style="display: flex;justify-content: right;">
+                              <button type="submit" class="btn btn-primary">Добавить показания</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">Потребление услуг</button>
+                    </h2>
+                    <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo">
+                        <div class="accordion-body">
+                            <div class="row my-3 mx-auto" style="justify-content: center;">
+                                <div class="col-lg-9 card" style="border-radius: 15px;">
+                                    <div class="card-body">
+                                        <div class="py-4" style="display: block;">
+                                            <div class="mb-3 row">
+                                              <label class="col-sm-4 col-form-label" for="date1">Потребление за: </label>
+                                                <div class="col-sm-3">
+                                                    <input type="text" class="form-control me-2" id="date1" placeholder="21.01.2023">
+                                                </div>
+                                                <button type="submit" class="col-sm-2 btn btn-primary">Удалить</button>
+                                            </div>
+
+                                        </div>
+                                        <div class="mb-3 row">
+                                            <label for="form1" class="col-sm-4 col-form-label">Потребление газа:</label>
+                                            <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="form1">
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3 row">
+                                            <label for="form2" class="col-sm-4 col-form-label">Потребление воды:</label>
+                                            <div class="col-sm-8">
+                                              <input type="text" class="form-control" id="form2">
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3 row">
+                                            <label for="form3" class="col-sm-4 col-form-label">Потребление энергии:</label>
+                                            <div class="col-sm-8">
+                                              <input type="text" class="form-control" id="form3">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pb-4" style="display: flex;justify-content: right;">
+                              <button type="submit" class="btn btn-primary">Добавить показания</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-heading3">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse3" aria-expanded="false" aria-controls="flush-collapse3">Квитанции</button>
+                    </h2>
+                    <div id="flush-collapse3" class="accordion-collapse collapse" aria-labelledby="flush-heading3">
+                        <div class="accordion-body">
+                            <div class="row my-3 mx-auto" style="justify-content: center;">
+                                <div class="col-lg-9 card" style="border-radius: 15px;">
+                                    <div class="card-body">
+                                        <div class="py-4" style="display: block;">
+                                            <div class="mb-3 row">
+
+                                                <label class="col-sm-4 col-form-label" for="date1">Квитанция за: </label>
+                                                <div class="col-sm-3">
+                                                    <input type="text" class="form-control me-2" id="date1" placeholder="21.01.2023">
+                                                </div>
+                                                <button type="submit" class="col-sm-2 btn btn-primary">Удалить</button>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3 row">
+                                            <label for="form1" class="col-sm-4 col-form-label">Сумма за газ:</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="form1">
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3 row">
+                                            <label for="form2" class="col-sm-4 col-form-label">Сумма за воду:</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="form2">
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3 row">
+                                            <label for="form3" class="col-sm-4 col-form-label">Сумма за энергию:</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="form3">
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3 row">
+                                            <label for="form4" class="col-sm-4 col-form-label">Сумма за мусор:</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="form4">
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3 row">
+                                            <label for="form5" class="col-sm-4 col-form-label">Сумма за обслуживание дома:</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="form5">
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3 row">
+                                            <label for="form6" class="col-sm-4 col-form-label">Общая сумма:</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="form6">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="pb-4" style="display: flex;justify-content: right;">
+                              <button type="submit" class="btn btn-primary">Добавить квитанцию</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            </div>
+        </div>
+        </div>
+
+        <hr>
+
+        <div class="py-2" style="display: flex;justify-content: right;">
+              <button type="submit" class="btn btn-primary">Сохранить</button>
+        </div>
+
+            </template>
+
+
+<footer class="footer mt-auto" style="padding-top: 3rem!important;">
+  <div class="text-center p-3" style="background-color: rgba(221, 238, 255, 1);">
+    <p class="text-dark" href="#">© 2023 Copyright: Контактные данные</p>
+  </div>
+</footer>
+</div>
+
+</body>
+
+</div>
+<script src="https://unpkg.com/vue@2.7.14/dist/vue.js"></script>
+<script type="text/javascript">
+    var vm1 = new Vue({
+    el: '#app1',
+    data: {
+        residents: [
+
+            {email: 'resident2@mail.ru', licSchet: '20XX111111', residents: '3', is_active: 'false', is_staff: 'false'},
+            {email: 'admin@mail.ru', licSchet: '10XX111111', residents: '0', is_active: 'true', is_staff: 'true'},
+            {email: 'resident3@mail.ru', licSchet: '30XX111111', residents: '1', is_active: 'true', is_staff: 'false'}
+        ]
+
+
+    }
+});
+</script>
+</html>
