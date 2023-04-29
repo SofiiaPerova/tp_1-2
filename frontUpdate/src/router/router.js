@@ -8,6 +8,7 @@ import PersonalAcc from '@/views/personal_account'
 import Profile from '@/views/profile'
 import RecoveryPass1 from '@/views/recovery_pass'
 import RecoveryPass2 from '@/views/recovery_pass2'
+import Admin_1 from '@/views/admin_1'
 
 
 Vue.use(VueRouter)
@@ -21,6 +22,8 @@ const routes = [
   { path: '/profile', component: Profile },
   { path: '/recovery_pass_1', component: RecoveryPass1 },
   { path: '/recovery_pass_2/:uidb64/:token/', component: RecoveryPass2 },
+
+  {path: '/admin', component: Admin_1}
 
   
 ]

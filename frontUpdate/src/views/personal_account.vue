@@ -1,5 +1,5 @@
 <template>
-  <div style="">
+  <div>
     <nav
       class="navbar navbar-expand-lg navbar-light"
       style="
@@ -48,128 +48,165 @@
         </div>
       </div>
     </nav>
-    <div class="container">
-      <h1 class="text-center mt-5">Welcome to your personal account</h1>
-      <div class="row mt-5 mx-auto" style="justify-content: center">
-        <div class="col-md-4 mr-12">
-          <div class="card">
-            <i
-              class="bi bi-pencil-square mt-3"
-              style="
-                font-size: 7rem;
-                justify-content: center;
-                display: flex;
-                align-self: center;
-              "
-            ></i>
-            <div class="card-body" style="align-self: center">
-              <router-link to="/indicators" class="btn btn-primary"
-                >Внесение показаний</router-link
-              >
+    <div class="main">
+      <div class="container">
+        <h1 class="text-center mt-5" v-if="first_name">
+          Добро пожаловать, {{ first_name + " " + second_name }}
+        </h1>
+        <h1 class="text-center mt-5" v-else>Добро пожаловать!</h1>
+        <div class="row mt-5 mx-auto" style="justify-content: center">
+          <h2
+            class="text-center mt-5"
+            v-if="dateError"
+            style="padding-bottom: 2%"
+          >
+            {{ dateError }}
+          </h2>
+          <div class="col-md-4 mr-12" v-else>
+            <div class="card">
+              <b-icon-pencil-square
+                style="
+                  width: 117px;
+                  height: 117px;
+                  justify-content: center;
+                  display: flex;
+                  align-self: center;
+                "
+              ></b-icon-pencil-square>
+              <div class="card-body" style="align-self: center">
+                <router-link to="/indicators" class="btn btn-primary"
+                  >Внесение показаний</router-link
+                >
+              </div>
             </div>
           </div>
-        </div>
-        <div class="col-md-4 ml-12">
-          <div class="card">
-            <i
-              class="bi bi-clipboard-data mt-3"
-              style="
-                font-size: 7rem;
-                justify-content: center;
-                display: flex;
-                align-self: center;
-              "
-            ></i>
-            <div class="card-body" style="align-self: center">
-              <a href="#previous_data" class="btn btn-primary"
-                >Прошедший период</a
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+          <div class="col-md-4 ml-12">
+            <div class="card">
+              <b-icon-clipboard-data
+                style="
+                  width: 117px;
+                  height: 117px;
+                  justify-content: center;
+                  display: flex;
+                  align-self: center;
+                "
+              ></b-icon-clipboard-data>
 
-    <div class="container-2">
-      <div class="invoice-2">
-        <h2>Текущий чек</h2>
-        <div class="invoice-items">
-          <div class="invoice-item">
-            <span class="item-label">Сумма за газ:</span>
-            <span class="item-value">{{ gas_actual }} ₽</span>
-          </div>
-          <div class="invoice-item">
-            <span class="item-label">Сумма за воду:</span>
-            <span class="item-value">{{ water_actual }} ₽</span>
-          </div>
-          <div class="invoice-item">
-            <span class="item-label">Сумма за энергию:</span>
-            <span class="item-value">{{ electro_actual }} ₽</span>
-          </div>
-          <div class="invoice-item">
-            <span class="item-label">Сумма за обслуживание дома:</span>
-            <span class="item-value">{{ za_dom_actual }} ₽</span>
-          </div>
-          <div class="invoice-item">
-            <span class="item-label">Общая сумма:</span>
-            <span class="item-value">{{ total_actual }} ₽</span>
+              <div class="card-body" style="align-self: center">
+                <a href="#previous_data" class="btn btn-primary"
+                  >Прошедший период</a
+                >
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="container" id="previous_data">
-      <h1 class="text-center mt-5">Данные за прошедший период</h1>
-      <div class="row mt-5 mx-auto" style="justify-content: center">
-        <div class="col-md-4 my-auto mx-auto">
-          <div class="list-group list-group-flush">
-            <button
-              type="button"
-              class="list-group-item list-group-item-action"
-              @click="invoice(1)"
-            >
-              Прошлый месяц
-            </button>
-            <button
-              type="button"
-              class="list-group-item list-group-item-action"
-              @click="invoice(2)"
-            >
-              Два месяца назад
-            </button>
-            <button
-              type="button"
-              class="list-group-item list-group-item-action"
-              @click="invoice(3)"
-            >
-              Три месяца назад
-            </button>
+
+      <div class="container-2">
+        <div class="invoice-2">
+          <h2>Текущий чек</h2>
+          <div class="invoice-items">
+            <div class="invoice-item">
+              <span class="item-label">Сумма за газ:</span>
+              <span class="item-value">{{ invoice_last.gasSumm }} ₽</span>
+            </div>
+            <div class="invoice-item">
+              <span class="item-label">Сумма за воду:</span>
+              <span class="item-value">{{ invoice_last.waterSumm }} ₽</span>
+            </div>
+            <div class="invoice-item">
+              <span class="item-label">Сумма за энергию:</span>
+              <span class="item-value">{{ invoice_last.electroSumm }} ₽</span>
+            </div>
+            <div class="invoice-item">
+              <span class="item-label">Обслуживание дома:</span>
+              <span class="item-value"
+                >{{
+                  Number(invoice_last.trashSumm) +
+                  Number(invoice_last.repairSumm)
+                }}
+                ₽</span
+              >
+            </div>
+            <div class="invoice-item">
+              <span class="item-label">Общая сумма:</span>
+              <span class="item-value">{{ invoice_last.total }} ₽</span>
+            </div>
           </div>
         </div>
-        <div class="col-md-4 mx-auto">
-          <div class="p-5 mx-7">
-            <div class="container-2">
-              <div class="invoice-2">
-                <h2>Чек на оплату</h2>
-                <div class="invoice-items">
-                  <div class="invoice-item">
-                    <span class="item-label">Сумма за газ:</span>
-                    <span class="item-value">{{ gas }} ₽</span>
-                  </div>
-                  <div class="invoice-item">
-                    <span class="item-label">Сумма за воду:</span>
-                    <span class="item-value">{{ water }} ₽</span>
-                  </div>
-                  <div class="invoice-item">
-                    <span class="item-label">Сумма за энергию:</span>
-                    <span class="item-value">{{ electro }} ₽</span>
-                  </div>
-                  <div class="invoice-item">
-                    <span class="item-label">Обслуживание дома:</span>
-                    <span class="item-value">{{ za_dom }} ₽</span>
-                  </div>
-                  <div class="invoice-item">
-                    <span class="item-label">Общая сумма:</span>
-                    <span class="item-value">{{ total }} ₽</span>
+      </div>
+      <hr class="mx-5" id="previous_data" />
+      <div class="container">
+        <h1 class="text-center mt-5">Данные за прошедший период</h1>
+        <div class="row mt-5 mx-auto" style="justify-content: center">
+          <div class="col-md-4 my-auto mx-auto">
+            <div class="list-group list-group-flush">
+              <div class="buttons">
+                <button
+                  type="button"
+                  class="list-group-item list-group-item-action"
+                  @click="invoice(1)"
+                >
+                  Прошлый месяц
+                </button>
+                <button
+                  type="button"
+                  class="list-group-item list-group-item-action"
+                  @click="invoice(2)"
+                >
+                  Два месяца назад
+                </button>
+                <button
+                  type="button"
+                  class="list-group-item list-group-item-action"
+                  @click="invoice(3)"
+                >
+                  Три месяца назад
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 mx-auto">
+            <div class="p-5 mx-7">
+              <div class="container-2">
+                <div class="invoice-2">
+                  <h2>Чек на оплату</h2>
+                  <div class="invoice-items">
+                    <div class="invoice-item">
+                      <span class="item-label">Сумма за газ:</span>
+                      <span class="item-value" v-if="invoiceActual.gasSumm"
+                        >{{ invoiceActual.gasSumm }} ₽</span
+                      >
+                    </div>
+                    <div class="invoice-item">
+                      <span class="item-label">Сумма за воду:</span>
+                      <span class="item-value" v-if="invoiceActual.waterSumm"
+                        >{{ invoiceActual.waterSumm }} ₽</span
+                      >
+                    </div>
+                    <div class="invoice-item">
+                      <span class="item-label">Сумма за энергию:</span>
+                      <span class="item-value" v-if="invoiceActual.electroSumm"
+                        >{{ invoiceActual.electroSumm }} ₽</span
+                      >
+                    </div>
+                    <div class="invoice-item">
+                      <span class="item-label">Обслуживание дома:</span>
+                      <span class="item-value" v-if="invoiceActual.trashSumm"
+                        >{{
+                          Number(invoiceActual.trashSumm) +
+                          Number(invoiceActual.repairSumm)
+                        }}
+                        ₽</span
+                      >
+                      <!-- <span class="item-value">₽</span> -->
+                    </div>
+                    <div class="invoice-item">
+                      <span class="item-label">Общая сумма:</span>
+                      <span class="item-value" v-if="invoiceActual.total"
+                        >{{ invoiceActual.total }} ₽</span
+                      >
+                    </div>
                   </div>
                 </div>
               </div>
@@ -177,56 +214,59 @@
           </div>
         </div>
       </div>
-    </div>
-    <hr class="mx-5" />
-    <div class="container py-5">
-      <div class="row mt-5 mx-auto" style="justify-content: center">
-        <div class="col-md-4 my-auto mx-auto">
-          <div class="list-group list-group-flush">
-            <button
-              type="button"
-              class="list-group-item list-group-item-action"
-              @click="get('getGasMeter')"
-            >
-              Газ
-            </button>
-            <button
-              type="button"
-              class="list-group-item list-group-item-action"
-              @click="get('getWaterMeter')"
-            >
-              Водоснабжение
-            </button>
-            <button
-              type="button"
-              class="list-group-item list-group-item-action"
-              @click="get('getElectroMeter')"
-            >
-              Электроэнергия
-            </button>
+      <br />
+      <br />
+      <hr class="mx-5" />
+      <h1 class="text-center mt-5">Статистика потребления</h1>
+      <div class="container py-5">
+        <div class="row mt-5 mx-auto" style="justify-content: center">
+          <div class="col-md-4 my-auto mx-auto">
+            <div class="list-group list-group-flush">
+              <div class="buttons">
+                <button
+                  type="button"
+                  class="list-group-item list-group-item-action"
+                  @click="getGas"
+                >
+                  Газ
+                </button>
+                <button
+                  type="button"
+                  class="list-group-item list-group-item-action"
+                  @click="getWater"
+                >
+                  Водоснабжение
+                </button>
+                <button
+                  type="button"
+                  class="list-group-item list-group-item-action"
+                  @click="getElectro"
+                >
+                  Электроэнергия
+                </button>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="col-md-4 mx-auto">
-          <h4 class="text-center">Статистика потребления</h4>
-          <div class="p-5 mx-4">
-            <i
-              class="bi bi-card-image"
-              style="
-                font-size: 7rem;
-                justify-content: center;
-                display: flex;
-                align-self: center;
-              "
-            >
-              <apexchart
-                ref="chart"
-                width="500"
-                type="bar"
-                :options="options"
-                :series="series"
-                :xaxis="xaxis"
-              ></apexchart>
-            </i>
+
+          <div class="col-md-4 mx-auto">
+            <div class="container" id="previous_data"></div>
+            <!-- <h1 class="text-center mt-5">Статистика потребления</h1> -->
+            <div class="container-3">
+              <div class="p-5 mx-4">
+                <div class="container-3">
+                  <apexchart
+                    class="chart"
+                    ref="chart"
+                    width="600"
+                    height="350"
+                    type="bar"
+                    :options="options"
+                    :series="series"
+                    :xaxis="xaxis"
+                  ></apexchart>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -248,20 +288,21 @@ import axios from "axios";
 export default {
   data() {
     return {
-      gas: "",
-      water: "",
-      electro: "",
-      za_dom: "",
-      total: "",
-      gas_actual: "",
-      water_actual: "",
-      electro_actual: "",
-      za_dom_actual: "",
-      total_actual: "",
+      invoiceActual: {},
+      invoice_last: {},
+      Invoices: [{}],
+      gas: [],
+      water: [],
+      electro: [],
+      costsDate: [],
       costs: [],
       date: [],
+      first_name: "",
+      second_name: "",
+      dateError: "",
       options: {
         chart: {
+          height: 750,
           id: "vuechart-example",
           toolbar: {
             show: false, // отключаем панель инструментов
@@ -303,77 +344,49 @@ export default {
       this.$router.push("/");
     },
     invoice(index) {
-      axios
-        .post("http://127.0.0.1:8000/auth/jwt/refresh/", {
-          refresh: localStorage.getItem("token"),
-        })
-        .then((response) => {
-          console.log(response);
-          localStorage.accessToken = response.data.access;
-          axios
-            .get(
-              `http://127.0.0.1:8000/api/v1/user/statistics/invoice/${index}/`,
-              {
-                headers: {
-                  Authorization: `Bearer ${localStorage.accessToken}`,
-                },
-              }
-            )
-            .then((response) => {
-              this.gas = response.data[0].gasSumm;
-              this.water = response.data[0].waterSumm;
-              this.electro = response.data[0].electroSumm;
-              this.za_dom =
-                Number(response.data[0].repairSumm) +
-                Number(response.data[0].trashSumm);
-              this.total = response.data[0].total;
-              console.log(response);
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      const count = this.Invoices.length;
+      this.invoiceActual = this.Invoices[count - index];
     },
-    get(index) {
-      axios
-        .post("http://127.0.0.1:8000/auth/jwt/refresh/", {
-          refresh: localStorage.getItem("token"),
-        })
-        .then((response) => {
-          // console.log(response);
-          localStorage.accessToken = response.data.access;
-          axios
-            .get(`http://127.0.0.1:8000/api/v1/user/${index}`, {
-              headers: {
-                Authorization: `Bearer ${localStorage.accessToken}`,
-              },
-            })
-            .then((response) => {
-              const chart = this.$refs.chart.chart;
-              chart.updateSeries([
-                {
-                  data: response.data.costs,
-                },
-              ]);
 
-              chart.updateOptions({
-                xaxis: {
-                  categories: response.data.date,
-                },
-              });
-
-              console.log(response);
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    getGas(index) {
+      const chart = this.$refs.chart.chart;
+      chart.updateSeries([
+        {
+          data: this.gas,
+        },
+      ]);
+      chart.updateOptions({
+        xaxis: {
+          categories: this.costsDate,
+        },
+      });
+    },
+    getWater() {
+      const chart = this.$refs.chart.chart;
+      chart.updateSeries([
+        {
+          data: this.water,
+        },
+      ]);
+      chart.updateOptions({
+        xaxis: {
+          categories: this.costsDate,
+        },
+      });
+    },
+    getElectro() {
+      const chart = this.$refs.chart.chart;
+      chart.updateSeries([
+        {
+          data: this.electro,
+        },
+      ]);
+      chart.updateOptions({
+        xaxis: {
+          categories: this.costsDate,
+        },
+      });
+      console.log(this.date);
     },
   },
   mounted() {
@@ -388,20 +401,37 @@ export default {
         console.log(response);
         localStorage.accessToken = response.data.access;
         axios
-          .get("http://127.0.0.1:8000/api/v1/user/statistics/invoice/1/", {
+          .get("http://127.0.0.1:8000/api/v1/user/userData/", {
             headers: {
               Authorization: `Bearer ${localStorage.accessToken}`,
             },
           })
           .then((response) => {
-            this.gas_actual = response.data[0].gasSumm;
-            this.water_actual = response.data[0].waterSumm;
-            this.electro_actual = response.data[0].electroSumm;
-            this.za_dom_actual =
-              Number(response.data[0].repairSumm) +
-              Number(response.data[0].trashSumm);
-            this.total_actual = response.data[0].total;
-            console.log(response);
+            this.Invoices = response.data.invoice;
+            const count = this.Invoices.length;
+            this.invoice_last = this.Invoices[count - 1];
+            this.second_name = response.data.second_name;
+            this.first_name = response.data.first_name;
+
+            response.data.costs.forEach((cost) => {
+              this.gas.push(cost.gasCost);
+              this.costsDate.push(cost.date);
+              this.water.push(cost.gasCost);
+              this.electro.push(cost.gasCost);
+            });
+            const count2 = this.costsDate.length;
+            const date = new Date(this.costsDate[count2 - 1]);
+
+            const currentYear = new Date().getFullYear();
+            const currentMonth = new Date().getMonth() + 1;
+            const year = date.getFullYear();
+            const month = date.getMonth() + 1;
+
+            if (year === currentYear && month === currentMonth) {
+              this.dateError = "Вы уже вводили показания в этом месяце!";
+            }
+            console.log(date);
+            console.log(dateNow);
           })
           .catch((error) => {
             console.log(error);
@@ -415,19 +445,33 @@ export default {
 </script>
 
 <style>
+.main {
+  border: 5px solid rgba(221, 238, 255, 1);
+  padding: 10px;
+  margin: 10px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  border-radius: 10px;
+  border-top: none;
+}
+
 .container-2 {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-left: auto;
+  margin-right: auto;
   height: 70vh;
+  width: 70vh !important;
 }
 
 .invoice-2 {
   border: 2px solid #333;
-  padding: 20px;
+  padding: 50px;
   border-radius: 10px;
   width: 500px;
   text-align: center;
+  font-size: 150%;
 }
 
 .invoice h2 {
@@ -454,5 +498,21 @@ export default {
 
 .item-value {
   font-size: 1.2rem;
+}
+.buttons {
+  border: 2px solid #333;
+  padding: 20px;
+  border-radius: 10px;
+  font-size: 120%;
+  height: 29vh;
+  width: 60vh !important;
+}
+.list-group-item {
+  display: inline-flex;
+  height: 8vh;
+  width: 55vh !important;
+  margin-top: 10px;
+  margin-right: 10px;
+  margin-top: 0px;
 }
 </style>

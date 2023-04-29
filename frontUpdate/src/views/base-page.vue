@@ -26,14 +26,14 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav me-auto mb-2 mb-lg-0">
-            
             <router-link to="/" class="nav-link active">Главная</router-link>
-            <router-link to="/access_register" class="nav-link active">Подтверждение регистрации</router-link>
-            
+            <router-link to="/admin" class="nav-link active">Админка</router-link>
           </div>
           <div class="navbar-nav">
-            <router-link to="/authorization" class="nav-link" >Вход</router-link>
-            <router-link to="/register" class="nav-link">Регистрация</router-link>
+            <router-link to="/authorization" class="nav-link">Вход</router-link>
+            <router-link to="/register" class="nav-link"
+              >Регистрация</router-link
+            >
           </div>
         </div>
       </div>
@@ -125,10 +125,10 @@
 export default {
   mounted() {
     if (localStorage.token) {
-      this.$router.push('/personal_account');
+      this.$router.push("/personal_account");
     }
   },
-}
+};
 </script>
 
 <style></style>
