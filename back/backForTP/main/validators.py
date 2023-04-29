@@ -12,11 +12,11 @@ def validate_residents(value) :
         raise ValidationError('Колличество жильцов варьируется 1-9')
 
 def validate_first_name(value) :
-    if not re.match('[А-Я][а-я]{1-15}', value):
+    if not re.match('[А-Я][а-я]{1,5}', value):
         raise ValidationError('Имя состоит из букв русского алфавита и начинается с заглавной буквы')
 
 def validate_last_name(value) :
-    if not re.match('[А-Я][а-я]{1-15}', value):
+    if not re.match('[А-Я][а-я]{1,15}', value):
         raise ValidationError('Фамилия состоит из букв русского алфавита и начинается с заглавной буквы')
 
 def validate_gasSumm(value) :

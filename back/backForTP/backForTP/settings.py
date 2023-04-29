@@ -202,6 +202,7 @@ DJOSER = {
     'SEND_ACTIVATION_EMAIL': True,
     'USER_CREATE_PASSWORD_RETYPE': True,
     'LOGIN_FIELD': 'email',
+    'USER_CREATE_FIELDS': ['email', 'password', 'licSchet'],
     'EMAIL': {
         'activation': 'djoser.email.ActivationEmail',
         'confirmation': 'djoser.email.ConfirmationEmail',
@@ -209,6 +210,7 @@ DJOSER = {
         'password_changed_confirmation': 'djoser.email.PasswordChangedConfirmationEmail',
         'username_reset': 'djoser.email.UsernameResetEmail',
     },
+
 }
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

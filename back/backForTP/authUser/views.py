@@ -17,7 +17,7 @@ from rest_framework.views import APIView
 
 from backForTP import settings
 from main.models import User
-from main.serializers import AdminSerializer
+from main.serializers import AdminRegistrationSerializer
 
 
 class sendEmail(APIView) :
@@ -129,5 +129,5 @@ class ActivateUser(UserViewSet):   # Активация аккаунта по с
 
 class AdminRegistrationView(generics.CreateAPIView) : # Регистрация админа
     queryset = User.objects.all()
-    serializer_class = AdminSerializer
+    serializer_class = AdminRegistrationSerializer
     permission_classes = [IsAdminUser, ]

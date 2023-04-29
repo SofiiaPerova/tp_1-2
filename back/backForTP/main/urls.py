@@ -21,4 +21,8 @@ urlpatterns = [
     path('user/getWaterMeter/', getWaterMeter.as_view()),  # Траты воды за 3 месяца
     path('user/getElectroMeter/', getElectroMeter.as_view()),  # Траты энергии за 3 месяца
 
+
+    path('user/userData/', userData.as_view()), # Вся информация по опльзователю
+
+
 ]

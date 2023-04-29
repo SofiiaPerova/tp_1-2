@@ -34,11 +34,11 @@ class User(AbstractUser, PermissionsMixin) :
     residents = models.CharField("Кол-во жильцов", default='3', validators=[validate_residents], max_length=1)
     is_active = models.BooleanField("active", default=False)
     username = None  # Удаляем поле 'username'
-    first_name = models.CharField("Имя" , max_length=20, blank=True, validators=[validate_first_name])
+    first_name = models.CharField("Имя", max_length=20, blank=True, validators=[validate_first_name])
     last_name = models.CharField("Фамилия", max_length=20, blank=True, validators=[validate_last_name])
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['licSchet', 'residents']
+    REQUIRED_FIELDS = ['licSchet', 'residents', 'first_name', 'last_name']
 
     objects = UserManager()
 

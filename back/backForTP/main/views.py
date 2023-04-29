@@ -5,7 +5,7 @@ from rest_framework import generics
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.views import *
-from .models import *
+from .models import User, Invoice, Costs, Data
 from .premissions import IsOwnerOrAdmin
 from .serializers import *
 
@@ -63,7 +63,7 @@ class ActivateUser(UserViewSet):   # Активация аккаунта по с
 
 class AdminRegistrationView(generics.CreateAPIView) : # Регистрация админа
     queryset = User.objects.all()
-    serializer_class = AdminSerializer
+    serializer_class = AdminRegistrationSerializer
     permission_classes = [IsAdminUser, ]
 
 class allUsers(generics.ListAPIView) : # Вывод данных всех пользователей
@@ -150,11 +150,19 @@ class getElectroMeter(APIView) : # Вывод трат энергии за 3 м�
 
 class allUserData(generics.RetrieveUpdateDestroyAPIView) :
     queryset = User.objects.all()
-    serializer_class = AdminSerializer
+    serializer_class = UserDataSerializer
     lookup_url_kwarg = 'id'
     permission_classes = [IsAdminUser,]
     # dd
 
+class userData(generics.RetrieveAPIView) :
+    queryset = User.objects.all()
+    costs = Costs.objects.all()
+    serializer_class = UserDataSerializer
+    permission_classes = [IsOwnerOrAdmin, ]
+
+    def get_object(self):
+        return self.request.user
 
 
 

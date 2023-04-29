@@ -42,7 +42,7 @@ class CostsSerializer(serializers.ModelSerializer) :
         fields = '__all__'
 
 
-class AdminSerializer(serializers.ModelSerializer) :
+class UserDataSerializer(serializers.ModelSerializer) :
     data = dataSerializer(many=True)
     invoice = invoiceSerializer(many=True)
     costs = CostsSerializer(many=True)
