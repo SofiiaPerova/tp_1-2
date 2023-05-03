@@ -157,7 +157,7 @@ export default {
           console.log(this.error);
         })
         .catch((error) => {
-          this.error = error.response.data[0];
+          this.error = "Ошибка в показаниях";
           console.log(error);
         });
     },

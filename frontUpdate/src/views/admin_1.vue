@@ -180,7 +180,7 @@ export default {
       fields: [
         { key: "id", label: "id" },
         { key: "email", label: "Почта" },
-        { key: "licSchet", label: "Почта" },
+        { key: "licSchet", label: "Лицевой счет" },
         { key: "is_active", label: "Active" },
         { key: "is_staff", label: "Статус" },
       ],
@@ -195,4 +195,7 @@ export default {
 </script>
 
 <style>
+.footer {
+  margin-top : 1000px;
+}
 </style>

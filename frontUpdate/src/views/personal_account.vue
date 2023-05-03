@@ -120,13 +120,13 @@
             </div>
             <div class="invoice-item">
               <span class="item-label">Обслуживание дома:</span>
-              <span class="item-value"
+              <span class="item-value" v-if="invoice_last.trashSumm"
                 >{{
                   Number(invoice_last.trashSumm) +
                   Number(invoice_last.repairSumm)
                 }}
-                ₽</span
-              >
+                ₽
+              </span>
             </div>
             <div class="invoice-item">
               <span class="item-label">Общая сумма:</span>
@@ -288,8 +288,20 @@ import axios from "axios";
 export default {
   data() {
     return {
-      invoiceActual: {},
-      invoice_last: {},
+      invoiceActual: {
+        electroSumm: "",
+        waterSumm: "",
+        gasSumm: "",
+        trashSumm: "",
+        repairSumm: "",
+      },
+      invoice_last: {
+        electroSumm: "",
+        waterSumm: "",
+        gasSumm: "",
+        trashSumm: "",
+        repairSumm: "",
+      },
       Invoices: [{}],
       gas: [],
       water: [],

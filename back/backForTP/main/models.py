@@ -35,10 +35,11 @@ class User(AbstractUser, PermissionsMixin) :
     is_active = models.BooleanField("active", default=False)
     username = None  # Удаляем поле 'username'
     first_name = models.CharField("Имя", max_length=20, blank=True, validators=[validate_first_name])
+    second_name = models.CharField("Отчество", max_length=20, blank=True, validators=[validate_last_name])
     last_name = models.CharField("Фамилия", max_length=20, blank=True, validators=[validate_last_name])
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['licSchet', 'residents', 'first_name', 'last_name']
+    REQUIRED_FIELDS = ['licSchet', 'residents', 'first_name', 'last_name', 'second_name']
 
     objects = UserManager()
 
@@ -53,7 +54,7 @@ class Invoice(models.Model) :
     trashSumm = models.CharField("Сумма за мусор", max_length=10)
     repairSumm = models.CharField("Сумма за обслуживание дома", max_length=10)
     total = models.CharField("Общая сумма", max_length=10)
-    date = models.DateTimeField("Дата создания квитанции", auto_now_add=True)
+    date = models.DateField("Дата создания квитанции", auto_now_add=True)
     userID = models.ForeignKey(User, on_delete=models.CASCADE, related_name = 'invoice')
 
     def __str__(self):
@@ -63,7 +64,7 @@ class Data(models.Model) :
     gas = models.CharField("Показания газового счетчика", max_length=10)
     water = models.CharField("Показания водяного счетчика", max_length=10)
     electro = models.CharField("Показания счетчика энергии",  max_length=10)
-    date = models.DateTimeField("Дата внесения показаний", auto_now_add=True)
+    date = models.DateField("Дата внесения показаний", auto_now_add=True)
     userID = models.ForeignKey(User, on_delete=models.CASCADE,  related_name = 'data', blank=True)
     costs = models.OneToOneField('Costs', on_delete=models.CASCADE, null=True,  related_name = 'data', blank=True)
 
@@ -74,7 +75,7 @@ class Costs(models.Model) :
     gasCost = models.CharField("Потребление газа", max_length=10)
     waterCost = models.CharField("Потребление воды", max_length=10)
     electroCost = models.CharField("Потребление энергии", max_length=10)
-    date = models.DateTimeField("Дата внесения показаний", auto_now_add=True)
+    date = models.DateField("Дата внесения показаний", auto_now_add=True)
     userID = models.ForeignKey(User, on_delete=models.CASCADE, unique=False,  related_name = 'costs')
 
     def __str__(self):

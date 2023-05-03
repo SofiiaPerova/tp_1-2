@@ -76,6 +76,9 @@ class UserProfile(generics.RetrieveUpdateAPIView) : # Данные пользо�
     serializer_class = UserCustomSerializer
     permission_classes = [IsOwnerOrAdmin, ]
 
+    def get_object(self):
+        return self.request.user
+
 
 class postMeterUser(generics.CreateAPIView) :  # Ввод показаний счетчика + сразу создается счет
     queryset = Data.objects.all()
@@ -84,6 +87,9 @@ class postMeterUser(generics.CreateAPIView) :  # Ввод показаний с�
 
     def perform_create(self, serializer):
         serializer.save(userID=self.request.user)
+
+
+
 
 
 class getAllInvoiceUser(generics.ListAPIView) : # Выдает все счета

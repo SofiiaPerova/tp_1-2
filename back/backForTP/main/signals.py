@@ -64,7 +64,7 @@ def createInvoice(sender, instance, **kwargs) :
         electroSumm = electroSumm,
         trashSumm = trashSumm,
         repairSumm = 200,
-        total = gasSumm + electroSumm + waterSumm + trashSumm + 100,
+        total = gasSumm + electroSumm + waterSumm + trashSumm + 200,
         userID = user
     )
 
