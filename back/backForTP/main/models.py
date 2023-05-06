@@ -56,7 +56,7 @@ class Invoice(models.Model) :
     total = models.CharField("Общая сумма", max_length=10)
     date = models.DateField("Дата создания квитанции", auto_now_add=True)
     userID = models.ForeignKey(User, on_delete=models.CASCADE, related_name = 'invoice')
-
+    data = models.OneToOneField("Data", on_delete=models.CASCADE, related_name = 'invoice')
     def __str__(self):
         return f"Invoice for {self.date.year}.{self.date.month}.{self.date.day}"
 
@@ -66,7 +66,7 @@ class Data(models.Model) :
     electro = models.CharField("Показания счетчика энергии",  max_length=10)
     date = models.DateField("Дата внесения показаний", auto_now_add=True)
     userID = models.ForeignKey(User, on_delete=models.CASCADE,  related_name = 'data', blank=True)
-    costs = models.OneToOneField('Costs', on_delete=models.CASCADE, null=True,  related_name = 'data', blank=True)
+
 
     def __str__(self):
         return f"Meter for {self.date.year}.{self.date.month}.{self.date.day}"
@@ -77,6 +77,6 @@ class Costs(models.Model) :
     electroCost = models.CharField("Потребление энергии", max_length=10)
     date = models.DateField("Дата внесения показаний", auto_now_add=True)
     userID = models.ForeignKey(User, on_delete=models.CASCADE, unique=False,  related_name = 'costs')
-
+    data = models.OneToOneField(Data, on_delete=models.CASCADE, related_name = 'cost')
     def __str__(self):
         return f"Costs for {self.date.year}.{self.date.month}.{self.date.day}"

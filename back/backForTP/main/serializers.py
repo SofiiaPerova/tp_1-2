@@ -8,7 +8,7 @@ class UserCustomSerializer(serializers.ModelSerializer) :
     username = serializers.CharField(required=False)
     class Meta:
         model = User
-        fields = ['id', 'licSchet', 'email', 'residents', 'username', 'is_active', 'first_name', 'second_name', 'last_name']
+        fields = ['id', 'licSchet', 'email', 'residents', 'username', 'is_active', 'first_name', 'second_name', 'last_name', 'is_staff']
 
 class AdminRegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
@@ -48,7 +48,7 @@ class UserDataSerializer(serializers.ModelSerializer) :
     costs = CostsSerializer(many=True)
     class Meta:
         model = User
-        fields = ['id', 'licSchet', 'email', 'residents', 'data', 'costs', 'invoice', 'first_name', 'second_name', 'last_name']
+        fields = ['id', 'licSchet', 'email', 'residents', 'data', 'costs', 'invoice', 'first_name', 'second_name', 'last_name', 'is_staff']
 
 
 

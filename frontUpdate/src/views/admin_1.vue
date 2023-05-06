@@ -30,7 +30,9 @@
           style="align-items: flex-start"
         >
           <div class="col-4 navbar-nav mb-2 mb-lg-0">
-            <a class="nav-link active" href="#">Главная</a>
+            <router-link to="/personal_account" class="nav-link"
+              >Главная</router-link
+            >
           </div>
           <div class="col-4 navbar-nav" style="justify-content: center">
             <b-icon-person
@@ -41,7 +43,7 @@
             ></b-icon-person>
           </div>
           <div class="col-4 navbar-nav" style="justify-content: right">
-            <a class="nav-link" href="base_page.html">Выход</a>
+            <a class="nav-link" @click="logout">Выход</a>
           </div>
         </div>
       </div>
@@ -67,116 +69,110 @@
         <div class="col-lg-9">
           <table class="table table-striped">
             <tbody>
-              <b-table striped hover :items="residents" :fields="fields">
+              <b-table striped hover :items="filteredRole" :fields="fields">
                 <template #cell(email)="data">
                   <!-- `data.value` is the value after formatted by the Formatter -->
-                  <a
-                    :href="`/admin_2/${data.item.id}`"
-                    >{{ data.value }}</a
-                  >
+                  <a :href="`/admin_2/${data.item.id}`">{{ data.value }}</a>
                 </template>
               </b-table>
             </tbody>
           </table>
         </div>
+
         <div class="col-lg-3">
-          <ul class="list-group">
-            <li class="list-group-item active" aria-current="true">Фильтр</li>
-            <li class="list-group-item">
-              <ul class="list-group my-2">
-                <li class="list-group-item active" aria-current="true">
-                  Статус персонала
-                </li>
-                <button
-                  type="button"
-                  class="list-group-item list-group-item-action"
+          <b-card
+            header="Фильтры"
+            header-bg-variant="primary"
+            text-variant="white"
+          >
+            <b-card header="Статус персонала" header-bg-variant="primary">
+              <b-list-group>
+                <b-list-group-item
+                  href="#"
+                  @click="filterStatus = 'all'"
+                  :active="filterStatus === 'all'"
+                  button
+                  class="w-75 h-75"
                 >
                   Все
-                </button>
-                <button
-                  type="button"
-                  class="list-group-item list-group-item-action"
+                </b-list-group-item>
+                <b-list-group-item
+                  href="#"
+                  @click="filterStatus = 'admin'"
+                  :active="filterStatus === 'admin'"
+                  button
+                  class="w-75 h-75"
                 >
                   Администратор
-                </button>
-                <button
-                  type="button"
-                  class="list-group-item list-group-item-action"
+                </b-list-group-item>
+                <b-list-group-item
+                  href="#"
+                  @click="filterStatus = 'user'"
+                  :active="filterStatus === 'user'"
+                  button
+                  class="w-75 h-75"
                 >
                   Плательщик
-                </button>
-              </ul>
-            </li>
-            <li class="list-group-item">
-              <ul class="list-group my-2">
-                <li class="list-group-item active" aria-current="true">
-                  Активация
-                </li>
-                <button
-                  type="button"
-                  class="list-group-item list-group-item-action"
+                </b-list-group-item>
+              </b-list-group>
+            </b-card>
+
+            <b-card header="Активация" header-bg-variant="primary">
+              <b-list-group>
+                <b-list-group-item
+                  href="#"
+                  @click="filterStatus = 'all'"
+                  :active="filterStatus === 'all'"
+                  button
+                  class="w-75 h-75"
                 >
                   Все
-                </button>
-                <button
-                  type="button"
-                  class="list-group-item list-group-item-action"
+                </b-list-group-item>
+                <b-list-group-item
+                  href="#"
+                  @click="filterStatus = 'active'"
+                  :active="filterStatus === 'active'"
+                  button
+                  class="w-75 h-75"
                 >
                   Активирован
-                </button>
-                <button
-                  type="button"
-                  class="list-group-item list-group-item-action"
+                </b-list-group-item>
+                <b-list-group-item
+                  href="#"
+                  @click="filterStatus = 'nactive'"
+                  :active="filterStatus === 'nactive'"
+                  button
+                  class="w-75 h-75"
                 >
                   Не активирован
-                </button>
-              </ul>
-            </li>
-          </ul>
+                </b-list-group-item>
+              </b-list-group>
+            </b-card>
+          </b-card>
         </div>
       </div>
-      <footer class="footer mt-auto" style="padding-top: 3rem !important">
-        <div
-          class="text-center p-3"
-          style="background-color: rgba(221, 238, 255, 1)"
-        >
-          <p class="text-dark" href="#">© 2023 Copyright: Контактные данные</p>
-        </div>
-      </footer>
     </div>
+
+    <footer class="footer mt-auto" style="padding-top: 20rem !important">
+      <div
+        class="text-center p-3"
+        style="background-color: rgba(221, 238, 255, 1)"
+      >
+        <p class="text-dark" href="#">© 2023 Copyright: Контактные данные</p>
+      </div>
+    </footer>
   </div>
 </template>
 
 <script >
+import axios from "axios";
 export default {
   data() {
     return {
       residents: [
-        {
-          id: 1,
-          email: "admin@mail.ru",
-          licSchet: "10XX111111",
-          residents: "0",
-          is_active: "true",
-          is_staff: "true",
-        },
-        {
-          id: 2,
-          email: "resident2@mail.ru",
-          licSchet: "20XX111111",
-          residents: "3",
-          is_active: "true",
-          is_staff: "false",
-        },
-        {
-          id: 3,
-          email: "resident3@mail.ru",
-          licSchet: "30XX111111",
-          residents: "1",
-          is_active: "true",
-          is_staff: "false",
-        },
+        
       ],
+      filterStatus: "all", // "all", "activ", "nactiv"
       fields: [
         { key: "id", label: "id" },
         { key: "email", label: "Почта" },
@@ -190,12 +186,70 @@ export default {
     email(value) {
       return `${value.first} ${value.last}`;
     },
+    logout() {
+      localStorage.token = "";
+      this.$router.push("/");
+    },
+  },
+  computed: {
+    filteredRole() {
+      switch (this.filterStatus) {
+        case "admin":
+          return this.residents.filter(
+            (resident) => resident.is_staff === true
+          );
+        case "user":
+          return this.residents.filter(
+            (resident) => resident.is_staff === false
+          );
+        case "active":
+          return this.residents.filter(
+            (resident) => resident.is_active === true
+          );
+        case "nactive":
+          return this.residents.filter(
+            (resident) => resident.is_active === false
+          );
+        default:
+          return this.residents;
+      }
+    },
+  },
+  mounted() {
+    if (localStorage.getItem("token") == "") {
+      this.$router.push("/");
+    }
+    axios
+      .post("http://127.0.0.1:8000/auth/jwt/refresh/", {
+        refresh: localStorage.getItem("token"),
+      })
+      .then((response) => {
+        console.log(response);
+        localStorage.accessToken = response.data.access;
+        axios
+          .get("http://127.0.0.1:8000/api/v1/admin/users/", {
+            headers: {
+              Authorization: `Bearer ${localStorage.accessToken}`,
+            },
+          })
+          .then((response) => {
+            this.residents = response.data;
+            console.log(response);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   },
 };
 </script>
 
 <style>
 .footer {
-  margin-top : 1000px;
+  margin-top: 1000px;
+  padding-top: auto;
 }
 </style>

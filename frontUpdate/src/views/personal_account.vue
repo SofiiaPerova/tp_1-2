@@ -43,6 +43,7 @@
           </div>
           <div class="col-4 navbar-nav" style="justify-content: right">
             <router-link to="/profile" class="nav-link">Профиль</router-link>
+            <router-link to="/admin" class="nav-link" v-if="is_staff">Админка</router-link>
             <a class="nav-link" @click="logout">Выход</a>
           </div>
         </div>
@@ -311,6 +312,7 @@ export default {
       date: [],
       first_name: "",
       second_name: "",
+      is_staff: "false",
       dateError: "",
       options: {
         chart: {
@@ -424,6 +426,7 @@ export default {
             this.invoice_last = this.Invoices[count - 1];
             this.second_name = response.data.second_name;
             this.first_name = response.data.first_name;
+            this.is_staff = response.data.is_staff;
 
             response.data.costs.forEach((cost) => {
               this.gas.push(cost.gasCost);
@@ -443,7 +446,7 @@ export default {
               this.dateError = "Вы уже вводили показания в этом месяце!";
             }
             console.log(date);
-            console.log(dateNow);
+            console.log(response.data);
           })
           .catch((error) => {
             console.log(error);

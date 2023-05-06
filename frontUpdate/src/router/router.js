@@ -9,6 +9,7 @@ import Profile from '@/views/profile'
 import RecoveryPass1 from '@/views/recovery_pass'
 import RecoveryPass2 from '@/views/recovery_pass2'
 import Admin_1 from '@/views/admin_1'
+import Admin_2 from '@/views/admin_2'
 
 
 Vue.use(VueRouter)
@@ -23,7 +24,8 @@ const routes = [
   { path: '/recovery_pass_1', component: RecoveryPass1 },
   { path: '/recovery_pass_2/:uidb64/:token/', component: RecoveryPass2 },
 
-  {path: '/admin', component: Admin_1}
+  {path: '/admin', component: Admin_1},
+  {path: '/admin_2/:id/', component: Admin_2},
 
   
 ]
