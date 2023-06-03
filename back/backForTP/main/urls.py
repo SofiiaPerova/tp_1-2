@@ -16,4 +16,5 @@ urlpatterns = [
     path('user/profile/', UserProfile.as_view()),  # Данные пользователя
     path('user/userData/', userData.as_view()), # Вся информация по опльзователю
     path('user/deleteData/', deleteLastData.as_view()), # Удаление последний показаний
+    path('user/deleteData/<int:id>/', deleteDataById.as_view()), # Удаление показаний по id Data
 ]

@@ -84,13 +84,12 @@ class postMeterUser(generics.CreateAPIView) :  # Ввод показаний с�
     serializer_class = dataSerializer
     permission_classes = [IsAuthenticated,]
 
-    def perform_create(self, serializer):
-        serializer.save(userID=self.request.user)
+
 
 class updateMeter(generics.UpdateAPIView) :
     queryset = Data.objects.all()
     serializer_class = dataSerializer
-    permission_classes = [IsAuthenticated,]
+    permission_classes = [IsAdminUser,]
     def get_object(self):
         obj = self.queryset.get(pk=self.kwargs['id'])
         return obj
@@ -120,6 +119,15 @@ class deleteLastData(generics.DestroyAPIView) :
 
     def get_object(self):
         return self.queryset.order_by('-id').first()
+
+class deleteDataById(generics.DestroyAPIView) :
+    queryset = Data.objects.all()
+    serializer_class = dataSerializer
+    permission_classes = [IsOwnerOrAdmin, ]
+
+    def get_object(self):
+        obj = self.queryset.get(pk=self.kwargs['id'])
+        return obj
 
 
 

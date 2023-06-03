@@ -8,7 +8,7 @@ from main.models import *
 
 
 
-@receiver(pre_save, sender=Data)
+@receiver(pre_save, sender=Data) # Валидация показателей
 def check_previous_record(sender, instance, **kwargs):
     try:
 
@@ -25,45 +25,7 @@ def check_previous_record(sender, instance, **kwargs):
     except Data.DoesNotExist:
         pass
 
-@receiver(post_save, sender=Data)
-def createCosts(sender, instance, **kwargs) :
-    user = User.objects.get(email=instance.userID)
-
-    if user.data.count() > 1:
-        data2 = Data.objects.filter(userID=instance.userID).order_by('-date')[0]
-        gas = int(instance.gas) - int(data2.gas)
-        water = int(instance.water) - int(data2.water)
-        electro = int(instance.electro) - int(data2.electro)
-    else:
-        gas = instance.gas
-        water = instance.water
-        electro = instance.electro
-    cost = Costs.objects.create(gasCost = gas, waterCost = water, electroCost = electro,
-                                    userID = user, data = instance)
-
-
-
-@receiver(post_save, sender=Costs)
-def createInvoice(sender, instance, **kwargs) :
-    user = User.objects.get(email = instance.userID)
-    gasSumm = int(int(instance.gasCost) * 6.9)
-    waterSumm = int(int(instance.waterCost) * 28)
-    electroSumm = int(int(instance.electroCost) * 4.85)
-    trashSumm = int(user.residents) * 100
-    invoiceLast = Data.objects.filter(userID=instance.userID).order_by('-date')[0]
-    total = gasSumm + electroSumm + waterSumm + trashSumm + 200,
-    Invoice.objects.create(
-        gasSumm =  gasSumm,
-        waterSumm = waterSumm,
-        electroSumm = electroSumm,
-        trashSumm = trashSumm,
-        repairSumm = 200,
-        total = total,
-        userID = user,
-        data = instance.data
-    )
-
-@receiver(post_save, sender=Data)
+@receiver(post_save, sender=Data) # Удаление старых показателей
 def DeleteInvoiceMeter(sender, instance, **kwargs):
     total_records = Invoice.objects.filter(userID = instance.userID).count()
 

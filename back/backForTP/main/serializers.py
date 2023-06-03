@@ -31,6 +31,78 @@ class dataSerializer(serializers.ModelSerializer):
         model = Data
         fields = '__all__'
 
+    def create(self, validated_data):
+        # Получить пользователя на основе текущего запроса или другой доступной информации
+        user = self.context['request'].user
+
+        # Создать экземпляр Data с переданными данными
+        data = Data.objects.create(userID=user, **validated_data)
+
+        # Создать экземпляр Costs
+        if user.data.count() > 1:
+            data2 = Data.objects.filter(userID=user).order_by('-date').first()
+            gas = int(data.gas) - int(data2.gas)
+            water = int(data.water) - int(data2.water)
+            electro = int(data.electro) - int(data2.electro)
+        else:
+            gas = data.gas
+            water = data.water
+            electro = data.electro
+        cost = Costs.objects.create(gasCost=gas, waterCost=water, electroCost=electro, userID=user, data=data)
+
+        # Создать экземпляр Invoice
+        gasSumm = int(int(cost.gasCost) * 6.9)
+        waterSumm = int(int(cost.waterCost) * 28)
+        electroSumm = int(int(cost.electroCost) * 4.85)
+        trashSumm = int(user.residents) * 100
+        total = gasSumm + electroSumm + waterSumm + trashSumm + 200
+        invoice = Invoice.objects.create(gasSumm=gasSumm, waterSumm=waterSumm, electroSumm=electroSumm,
+                                         trashSumm=trashSumm, repairSumm=200, total=total, userID=user, data=data)
+
+        return data
+
+    def update(self, instance, validated_data):
+        # Обновить экземпляр Data
+        instance.gas = validated_data.get('gas', instance.gas)
+        instance.water = validated_data.get('water', instance.water)
+        instance.electro = validated_data.get('electro', instance.electro)
+        instance.save()
+
+        # Обновить экземпляр Costs
+        user = instance.userID
+        if user.data.count() > 1:
+            data2 = Data.objects.filter(userID=user).order_by('-date').exclude(id=instance.id).first()
+            gas = int(instance.gas) - int(data2.gas)
+            water = int(instance.water) - int(data2.water)
+            electro = int(instance.electro) - int(data2.electro)
+        else:
+            gas = instance.gas
+            water = instance.water
+            electro = instance.electro
+
+        cost = instance.cost  # Предполагается, что связь OneToOne называется "cost"
+        cost.gasCost = gas
+        cost.waterCost = water
+        cost.electroCost = electro
+        cost.save()
+
+        # Обновить экземпляр Invoice
+        gasSumm = int(gas) * 6.9
+        waterSumm = int(water) * 28
+        electroSumm = int(electro) * 4.85
+        trashSumm = int(user.residents) * 100
+        total = gasSumm + electroSumm + waterSumm + trashSumm + 200
+
+        invoice = instance.invoice  # Предполагается, что связь OneToOne называется "invoice"
+        invoice.gasSumm = gasSumm
+        invoice.waterSumm = waterSumm
+        invoice.electroSumm = electroSumm
+        invoice.trashSumm = trashSumm
+        invoice.total = total
+        invoice.save()
+
+        return instance
+
 class invoiceSerializer(serializers.ModelSerializer) :
     class Meta:
         model = Invoice

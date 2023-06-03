@@ -11,7 +11,7 @@ class MeterInline(admin.StackedInline):
     extra = 1
     verbose_name_plural = 'Показания счетчиков'
     classes = ['collapse']
-    fields = ['gas', 'water',
+    fields = ['id','gas', 'water',
               'electro', 'date']
     readonly_fields = ['date']
     verbose_name = 'Показания за '
@@ -23,7 +23,7 @@ class InvoiceInline(admin.StackedInline):
     extra = 1
     verbose_name_plural = 'Квитанции'
     classes = ['collapse']
-    fields = ['gasSumm', 'waterSumm','electroSumm',
+    fields = ['id','gasSumm', 'waterSumm','electroSumm',
               'trashSumm', 'repairSumm', 'total','date']
     readonly_fields = ['date']
     verbose_name = 'Квитанция за '
@@ -34,7 +34,7 @@ class CostsInLine(admin.StackedInline) :
     extra = 1
     verbose_name_plural = 'Потребление услуг'
     classes = ['collapse']
-    fields = ['gasCost', 'waterCost',
+    fields = ['id','gasCost', 'waterCost',
               'electroCost', 'date']
     readonly_fields = ['date']
     verbose_name = 'Потребление за '
