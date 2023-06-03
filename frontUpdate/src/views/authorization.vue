@@ -117,7 +117,7 @@ export default {
     async login() {
       try {
         const response = await axios
-          .post("http://127.0.0.1:8000/auth/jwt/create/", {
+          .post(localStorage.ip + "auth/jwt/create/", {
             email: this.email,
             password: this.password,
           })

@@ -228,14 +228,14 @@ export default {
       this.$router.push("/");
     }
     axios
-      .post("http://127.0.0.1:8000/auth/jwt/refresh/", {
+      .post(localStorage.ip + "auth/jwt/refresh/", {
         refresh: localStorage.getItem("token"),
       })
       .then((response) => {
         console.log(response);
         localStorage.accessToken = response.data.access;
         axios
-          .get("http://127.0.0.1:8000/api/v1/admin/users/", {
+          .get(localStorage.ip + "api/v1/admin/users/", {
             headers: {
               Authorization: `Bearer ${localStorage.accessToken}`,
             },

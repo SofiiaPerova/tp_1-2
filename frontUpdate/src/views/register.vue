@@ -247,7 +247,7 @@ export default {
   methods: {
     async registration() {
       axios
-        .post("http://127.0.0.1:8000/auth/users/", {
+        .post( localStorage.ip +"auth/users/", {
           licSchet: this.licSchet,
           email: this.email,
           password: this.password,

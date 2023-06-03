@@ -222,7 +222,8 @@ EMAIL_HOST_PASSWORD = 'v0RwEJwzrdKkzRqS8P9g'
 DEFAULT_FROM_EMAIL = 'denistestfortp@mail.ru'
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:8081',
+    'http://localhost:5000',
     'http://localhost:8080',
-    'http://192.168.3.2:8080'
+    'http://192.168.3.2:8080',
+    'http://45.146.164.34:5000'
 ]

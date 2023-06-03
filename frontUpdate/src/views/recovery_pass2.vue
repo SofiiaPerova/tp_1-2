@@ -99,7 +99,7 @@ export default {
         this.error = "Пароли должны совпадать!"
         return
       } else {
-        axios.post(`http://localhost:8000/auth/password/reset/confirm/${this.$route.params.uidb64}/${this.$route.params.token}/`, {
+        axios.post( localStorage.ip +`auth/password/reset/confirm/${this.$route.params.uidb64}/${this.$route.params.token}/`, {
           password: this.password,
           re_password: this.re_password
         }).then((response) => {

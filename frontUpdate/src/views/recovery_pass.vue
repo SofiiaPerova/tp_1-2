@@ -97,7 +97,7 @@ export default {
   methods: {
     async sendEmail() {
       const response = axios
-        .post("http://127.0.0.1:8000/auth/password/reset/", {
+        .post( localStorage.ip +"auth/password/reset/", {
           email: this.email,
         })
         .then((response) => {

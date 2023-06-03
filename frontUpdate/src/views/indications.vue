@@ -130,7 +130,7 @@ export default {
     },
     async postIndicators() {
       const refreshResponse = await axios.post(
-        "http://127.0.0.1:8000/auth/jwt/refresh/",
+        localStorage.ip + "auth/jwt/refresh/",
         {
           refresh: localStorage.getItem("token"),
         }
@@ -140,7 +140,7 @@ export default {
 
       axios
         .post(
-          "http://127.0.0.1:8000/api/v1/user/inputMeter/",
+          localStorage.ip +"api/v1/user/inputMeter/",
           {
             gas: this.gas,
             water: this.water,

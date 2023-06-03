@@ -50,7 +50,8 @@ class dataSerializer(serializers.ModelSerializer):
         data = Data.objects.create(userID=user, **validated_data)
 
         # Создать экземпляр Costs
-        if user.data.count() > 0:
+        if user.data.count() > 1:
+            print(user.data.count())
             data2 = Data.objects.order_by('-date')[1]
             gas = int(data.gas) - int(data2.gas)
             water = int(data.water) - int(data2.water)
