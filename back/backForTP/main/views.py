@@ -79,7 +79,6 @@ class UserProfile(generics.RetrieveUpdateAPIView) : # Данные пользо�
     def get_object(self):
         return self.request.user
 
-
 class postMeterUser(generics.CreateAPIView) :  # Ввод показаний счетчика + сразу создается счет
     queryset = Data.objects.all()
     serializer_class = dataSerializer
@@ -98,59 +97,6 @@ class updateMeter(generics.UpdateAPIView) :
     # def perform_create(self, serializer):
     #     serializer.save(userID=self.request.user)
 
-# class getAllMeterUser(generics.ListAPIView) : # Выдает все показатели
-#     queryset = Data.objects.all()
-#     serializer_class = dataSerializer
-#     permission_classes = [IsOwnerOrAdmin, ]
-#
-#     def get_queryset(self):
-#         user = self.request.user
-#         return Data.objects.filter(userID=user)
-#
-# class getInvoiceUser(APIView) :  # Выдает счета за последние 3 месяца при указании месяца ( pk )
-#     def get(self, request,monthsAgo):
-#         monthsAgo = int(monthsAgo)
-#         if (monthsAgo > 3 or monthsAgo < 1):
-#             return Exception
-#         invoice = Invoice.objects.filter(userID = self.request.user.pk).order_by('-date')[monthsAgo-1:monthsAgo]
-#         serializer = invoiceSerializer(invoice, many=True)
-#         return Response(serializer.data)
-#
-# class getMeterUser(APIView) : ## Выдает показания за последние 3 месяца
-#     def get(self, request):
-#         meter = Data.objects.filter(userID = self.request.user.pk).order_by('-date')[:3]
-#         serializer = dataSerializer(meter, many=True)
-#         return Response(serializer.data)
-#
-#
-# class getGasMeter(APIView) : # Вывод трат газа за 3 месяца
-#     def get(self, request):
-#         user = get_object_or_404(User, email=self.request.user.email)
-#         costs = Costs.objects.filter(userID=user).order_by('-id')[:3]
-#         gas_costs = [cost.gasCost for cost in costs]
-#         gas_date = [cost.date.date() for cost in costs]
-#         return JsonResponse({'costs': gas_costs, 'date': gas_date})
-#
-#
-#
-# class getWaterMeter(APIView) : # Вывод трат воды за 3 месяца
-#     def get(self, request):
-#         user = get_object_or_404(User, email=self.request.user.email)
-#         costs = Costs.objects.filter(userID=user).order_by('-id')[:3]
-#         water_costs = [cost.waterCost for cost in costs]
-#         water_date = [cost.date.date() for cost in costs]
-#         return JsonResponse({'costs': water_costs, 'date': water_date})
-#
-#
-# class getElectroMeter(APIView) : # Вывод трат энергии за 3 месяца
-#     def get(self, request):
-#         user = get_object_or_404(User, email=self.request.user.email)
-#         costs = Costs.objects.filter(userID=user).order_by('-id')[:3]
-#         electro_costs = [cost.electroCost for cost in costs]
-#         electro_date = [cost.date.date() for cost in costs]
-#         return JsonResponse({'costs': electro_costs, 'date' : electro_date})
-
-
 class allUserData(generics.RetrieveUpdateDestroyAPIView) :
     queryset = User.objects.all()
     serializer_class = UserDataSerializer
@@ -166,6 +112,7 @@ class userData(generics.RetrieveAPIView) :
 
     def get_object(self):
         return self.request.user
+
 
 
 

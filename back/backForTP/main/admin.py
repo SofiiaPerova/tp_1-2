@@ -49,25 +49,6 @@ class UserAdmin(admin.ModelAdmin):
     inlines = [MeterInline, CostsInLine, InvoiceInline]
 
 
-# @admin.register(Invoice)
-# class InvoiceAdmin(admin.ModelAdmin):
-#     list_display = ('userID', 'date','gasSumm', 'waterSumm', 'electroSumm', 'trashSumm',
-#                     'repairSumm', 'total')
-#     list_editable = ('gasSumm', 'waterSumm', 'electroSumm', 'trashSumm',
-#                     'repairSumm', 'total')
-#     # list_filter = ('date')
-#     search_fields = ['userID']
-#     readonly_fields = ['date', 'userID']
-#
-# @admin.register(Data)
-# class MeterAdmin(admin.ModelAdmin):
-#     list_display = ('userID', 'date','gas', 'water', 'electro')
-#     list_editable = ('gas', 'water', 'electro')
-#     # list_filter = ('date')
-#     search_fields = ['userID']
-#     readonly_fields = ['date', 'userID']
-
-
 class CustomUserAdmin(UserAdmin):
     list_display = ('email', 'licSchet', 'residents', 'is_staff', 'is_active',)
     list_filter = ('is_staff', 'is_active')
