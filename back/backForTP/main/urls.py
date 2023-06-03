@@ -15,5 +15,5 @@ urlpatterns = [
     path('user/updateMeter/<int:id>/', updateMeter.as_view()), # Обновление данных
     path('user/profile/', UserProfile.as_view()),  # Данные пользователя
     path('user/userData/', userData.as_view()), # Вся информация по опльзователю
-
+    path('user/deleteData/', deleteLastData.as_view()), # Удаление последний показаний
 ]

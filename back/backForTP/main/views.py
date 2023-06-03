@@ -113,7 +113,13 @@ class userData(generics.RetrieveAPIView) :
     def get_object(self):
         return self.request.user
 
+class deleteLastData(generics.DestroyAPIView) :
+    queryset = Data.objects.all()
+    serializer_class = dataSerializer
+    permission_classes = [IsOwnerOrAdmin, ]
 
+    def get_object(self):
+        return self.queryset.order_by('-id').first()
 
 
 
