@@ -8,22 +8,22 @@ from main.models import *
 
 
 
-@receiver(pre_save, sender=Data) # Валидация показателей
-def check_previous_record(sender, instance, **kwargs):
-    try:
-
-        user = User.objects.get(email=instance.userID)
-        if user.data.count() > 0 :
-            previous_record = Data.objects.filter(userID=instance.userID).order_by('-date')[0]
-            if previous_record:
-                if int(instance.gas) <= int(previous_record.gas):
-                    raise ValueError('Показания газа должны быть больше предыдущих')
-                if int(instance.water) <= int(previous_record.water):
-                    raise ValueError('Показания воды должны быть больше предыдущих')
-                if int(instance.electro) <= int(previous_record.electro):
-                    raise ValueError('Показания энергии должны быть больше предыдущих')
-    except Data.DoesNotExist:
-        pass
+# @receiver(pre_save, sender=Data) # Валидация показателей
+# def check_previous_record(sender, instance, **kwargs):
+#     try:
+#
+#         user = User.objects.get(email=instance.userID)
+#         if user.data.count() > 0 :
+#             previous_record = Data.objects.filter(userID=instance.userID).order_by('-date')[0]
+#             if previous_record:
+#                 if int(instance.gas) <= int(previous_record.gas):
+#                     raise ValueError('Показания газа должны быть больше предыдущих')
+#                 if int(instance.water) <= int(previous_record.water):
+#                     raise ValueError('Показания воды должны быть больше предыдущих')
+#                 if int(instance.electro) <= int(previous_record.electro):
+#                     raise ValueError('Показания энергии должны быть больше предыдущих')
+#     except Data.DoesNotExist:
+#         pass
 
 @receiver(post_save, sender=Data) # Удаление старых показателей
 def DeleteInvoiceMeter(sender, instance, **kwargs):

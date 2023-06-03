@@ -179,6 +179,7 @@ export default {
               }
             )
             .then((response) => {
+              this.$router.push("/");
               console.log(response);
             })
             .catch((error) => {

@@ -89,10 +89,12 @@ class postMeterUser(generics.CreateAPIView) :  # Ввод показаний с�
 class updateMeter(generics.UpdateAPIView) :
     queryset = Data.objects.all()
     serializer_class = dataSerializer
-    permission_classes = [IsAdminUser,]
-    def get_object(self):
-        obj = self.queryset.get(pk=self.kwargs['id'])
-        return obj
+    permission_classes = [IsOwnerOrAdmin,]
+    lookup_url_kwarg = 'id'
+
+    # def get_object(self):
+    #     obj = self.queryset.get(userID=self.kwargs['id'])
+    #     return obj
     # def perform_create(self, serializer):
     #     serializer.save(userID=self.request.user)
 
@@ -100,8 +102,8 @@ class allUserData(generics.RetrieveUpdateDestroyAPIView) :
     queryset = User.objects.all()
     serializer_class = UserDataSerializer
     lookup_url_kwarg = 'id'
-    permission_classes = [IsAdminUser,]
-    # dd
+    # permission_classes = [IsOwnerOrAdmin,]
+
 
 class userData(generics.RetrieveAPIView) :
     queryset = User.objects.all()
@@ -129,5 +131,49 @@ class deleteDataById(generics.DestroyAPIView) :
         obj = self.queryset.get(pk=self.kwargs['id'])
         return obj
 
+class UserDataUpdateAPIView(APIView):
+    def put(self, request):
+        data = request.data
+        user_id = data.get('id')
+        user_data = {
+            'licSchet': data.get('licSchet'),
+            'email': data.get('email'),
+            'residents': data.get('residents'),
+            'is_active' : data.get('is_active'),
+            'is_staff' : data.get('is_staff')
+        }
+        data_objects = data.get('data')
+
+        try:
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return Response(f"User with ID {user_id} does not exist.", status=status.HTTP_400_BAD_REQUEST)
+
+        user_serializer = UserCustomSerializer(user, data=user_data)
+        if user_serializer.is_valid():
+            user_serializer.save()
+        else:
+            return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        # Обновление объектов Data
+        for data_obj in data_objects:
+            data_id = data_obj.get('id')
+            if data_id:
+                try:
+                    data_instance = Data.objects.get(id=data_id, userID=user)
+                except Data.DoesNotExist:
+                    return Response(f"Data object with ID {data_id} does not exist for user {user_id}.",
+                                    status=status.HTTP_400_BAD_REQUEST)
+                data_serializer = dataSerializer(data=data_obj, instance=data_instance)
+            else:
+                data_obj['userID'] = user.id
+                data_serializer = dataSerializer(data=data_obj)
+
+            if data_serializer.is_valid():
+                data_serializer.save()
+            else:
+                return Response(data_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response("User data updated successfully.")
 
 

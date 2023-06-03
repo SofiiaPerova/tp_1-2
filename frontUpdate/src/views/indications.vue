@@ -154,6 +154,7 @@ export default {
         )
         .then((response) => {
           this.error = "Вы успешно внесли показания!";
+          this.$router.push("/");
           console.log(this.error);
         })
         .catch((error) => {

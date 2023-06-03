@@ -27,7 +27,9 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav me-auto mb-2 mb-lg-0">
             <router-link to="/" class="nav-link active">Главная</router-link>
-            <router-link to="/admin" class="nav-link active">Админка</router-link>
+            <router-link to="/admin" class="nav-link active"
+              >Админка</router-link
+            >
           </div>
           <div class="navbar-nav">
             <router-link to="/authorization" class="nav-link">Вход</router-link>
@@ -63,50 +65,12 @@
       </div>
       <div>
         <h3>Часто задаваемые вопросы</h3>
-        <div class="accordion accordion-flush" id="accordionFlushExample">
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="flush-headingOne">
-              <button
-                class="accordion-button collapsed"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#flush-collapseOne"
-                aria-expanded="false"
-                aria-controls="flush-collapseOne"
-              >
-                Вопрос 1
-              </button>
-            </h2>
-            <div
-              id="flush-collapseOne"
-              class="accordion-collapse collapse"
-              aria-labelledby="flush-headingOne"
-            >
-              <div class="accordion-body">...</div>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="flush-headingTwo">
-              <button
-                class="accordion-button collapsed"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#flush-collapseTwo"
-                aria-expanded="false"
-                aria-controls="flush-collapseTwo"
-              >
-                Вопрос 2
-              </button>
-            </h2>
-            <div
-              id="flush-collapseTwo"
-              class="accordion-collapse collapse"
-              aria-labelledby="flush-headingTwo"
-            >
-              <div class="accordion-body">...</div>
-            </div>
-          </div>
-        </div>
+
+        <i-collapsible variant="light">
+          <i-collapsible-item title="Показания каких счетчиков я могу внести?">
+            <a>Внесение показаний проводится по счетчикам воды, газа и электроэнергии</a>
+          </i-collapsible-item>
+        </i-collapsible>
       </div>
     </div>
     <footer class="footer mt-auto" style="padding-top: 3rem !important">

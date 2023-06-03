@@ -42,9 +42,7 @@
             ></i>
           </div>
           <div class="col-4 navbar-nav" style="justify-content: right">
-            <router-link to="/admin" class="nav-link"
-              >Админка</router-link
-            >
+            <router-link to="/admin" class="nav-link">Админка</router-link>
             <a class="nav-link" @click="logout">Выход</a>
           </div>
         </div>
@@ -65,6 +63,7 @@
             <div class="col-sm-8">
               <input
                 v-bind:placeholder="resident.email"
+                v-model="resident.email"
                 type="email"
                 class="form-control"
                 id="form1"
@@ -79,6 +78,7 @@
             <div class="col-sm-8">
               <input
                 v-bind:placeholder="resident.licSchet"
+                v-model="resident.licSchet"
                 type="text"
                 class="form-control"
                 id="form2"
@@ -93,6 +93,7 @@
             <div class="col-sm-8">
               <input
                 v-bind:placeholder="resident.residents"
+                v-model="resident.residents"
                 type="text"
                 class="form-control"
                 id="form3"
@@ -114,37 +115,26 @@
 
           <div class="form-check pb-2">
             <input
-              v-if="resident.is_active == 'true'"
               class="form-check-input"
               type="checkbox"
               id="check1"
-              checked
-            />
-            <input
-              v-if="resident.is_active == 'false'"
-              class="form-check-input"
-              type="checkbox"
-              id="check1"
-              unchecked
+              v-model="resident.is_active"
             />
             <label class="form-check-label" for="check1">Активирован</label>
           </div>
           <div class="form-check pb-2">
             <input
-              v-if="resident.is_staff == 'true'"
               class="form-check-input"
               type="checkbox"
               id="check2"
-              checked
-            />
-            <input
-              v-if="resident.is_staff == 'false'"
-              class="form-check-input"
-              type="checkbox"
-              id="check2"
-              unchecked
+              v-model="resident.is_staff"
             />
             <label class="form-check-label" for="check2">Администратор</label>
+          </div>
+          <div class="py-2" style="display: flex; justify-content: right">
+            <button type="submit" class="btn btn-primary" @click="updateData()">
+              Сохранить
+            </button>
           </div>
           <i-collapsible variant="light">
             <i-collapsible-item title="Показания счетчиков">
@@ -163,9 +153,25 @@
                           <button
                             type="submit"
                             class="col-sm-2 btn btn-primary"
+                            @click="deleteCounter(data.id)"
                           >
                             Удалить
                           </button>
+                        </div>
+                      </div>
+
+                      <div class="mb-3 row">
+                        <label for="form2" class="col-sm-4 col-form-label"
+                          >id:</label
+                        >
+                        <div class="col-sm-8">
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="form2"
+                            :value="data.id"
+                            readonly
+                          />
                         </div>
                       </div>
                       <div class="mb-3 row">
@@ -177,6 +183,7 @@
                             type="text"
                             class="form-control"
                             id="form1"
+                            v-model="data.gas"
                             :placeholder="data.gas"
                           />
                         </div>
@@ -191,6 +198,7 @@
                             type="text"
                             class="form-control"
                             id="form2"
+                            v-model="data.water"
                             :placeholder="data.water"
                           />
                         </div>
@@ -205,9 +213,9 @@
                             type="text"
                             class="form-control"
                             id="form3"
+                            v-model="data.electro"
                             :placeholder="data.electro"
                           />
-                         
                         </div>
                       </div>
                     </div>
@@ -233,12 +241,6 @@
                           <div class="col-sm-3">
                             <p id="date1">{{ cost.date }}</p>
                           </div>
-                          <button
-                            type="submit"
-                            class="col-sm-2 btn btn-primary"
-                          >
-                            Удалить
-                          </button>
                         </div>
                       </div>
                       <div class="mb-3 row">
@@ -250,7 +252,8 @@
                             type="text"
                             class="form-control"
                             id="form1"
-                            :placeholder="cost.gasCost"
+                            :value="cost.gasCost"
+                            readonly
                           />
                         </div>
                       </div>
@@ -264,7 +267,8 @@
                             type="text"
                             class="form-control"
                             id="form2"
-                            :placeholder="cost.waterCost"
+                            :value="cost.waterCost"
+                            readonly
                           />
                         </div>
                       </div>
@@ -278,9 +282,9 @@
                             type="text"
                             class="form-control"
                             id="form3"
-                            :placeholder="cost.electroCost"
+                            :value="cost.electroCost"
+                            readonly
                           />
-                          
                         </div>
                       </div>
                     </div>
@@ -310,12 +314,6 @@
                           <div class="col-sm-3">
                             <p id="date1">{{ invoice.date }}</p>
                           </div>
-                          <button
-                            type="submit"
-                            class="col-sm-2 btn btn-primary"
-                          >
-                            Удалить
-                          </button>
                         </div>
                       </div>
                     </div>
@@ -328,7 +326,8 @@
                           type="text"
                           class="form-control"
                           id="form1"
-                          :placeholder="invoice.gasSumm"
+                          :value="invoice.gasSumm"
+                          readonly
                         />
                       </div>
                     </div>
@@ -342,7 +341,8 @@
                           type="text"
                           class="form-control"
                           id="form2"
-                          :placeholder="invoice.waterSumm"
+                          :value="invoice.waterSumm"
+                          readonly
                         />
                       </div>
                     </div>
@@ -356,7 +356,8 @@
                           type="text"
                           class="form-control"
                           id="form2"
-                          :placeholder="invoice.electroSumm"
+                          :value="invoice.electroSumm"
+                          readonly
                         />
                       </div>
                     </div>
@@ -369,7 +370,8 @@
                           type="text"
                           class="form-control"
                           id="form4"
-                          :placeholder="invoice.trashSumm"
+                          :value="invoice.trashSumm"
+                          readonly
                         />
                       </div>
                     </div>
@@ -382,7 +384,8 @@
                           type="text"
                           class="form-control"
                           id="form5"
-                          :placeholder="invoice.repairSumm"
+                          :value="invoice.repairSumm"
+                          readonly
                         />
                       </div>
                     </div>
@@ -395,9 +398,9 @@
                           type="text"
                           class="form-control"
                           id="form6"
-                          :placeholder="invoice.total"
+                          :value="invoice.total"
+                          readonly
                         />
-    
                       </div>
                     </div>
                   </div>
@@ -410,13 +413,14 @@
             </i-collapsible-item>
           </i-collapsible>
         </div>
+        <div class="py-2" style="display: flex; justify-content: right">
+          <button type="submit" class="btn btn-primary" @click="updateMeter()">
+            Сохранить
+          </button>
+        </div>
       </div>
 
       <hr />
-
-      <div class="py-2" style="display: flex; justify-content: right">
-        <button type="submit" class="btn btn-primary">Сохранить</button>
-      </div>
     </div>
 
     <footer class="footer mt-auto" style="padding-top: 3rem !important">
@@ -437,11 +441,108 @@ export default {
     return {
       resident: [],
     };
-  }, methods : {
+  },
+  methods: {
     logout() {
       localStorage.token = "";
       this.$router.push("/");
     },
+    async deleteCounter(id) {
+      if (localStorage.getItem("token") == "") {
+        this.$router.push("/");
+      }
+      axios
+        .post("http://127.0.0.1:8000/auth/jwt/refresh/", {
+          refresh: localStorage.getItem("token"),
+        })
+        .then((response) => {
+          console.log(response);
+          localStorage.accessToken = response.data.access;
+          axios
+            .delete(`http://127.0.0.1:8000/api/v1/user/deleteData/${id}/`, {
+              headers: {
+                Authorization: `Bearer ${localStorage.accessToken}`,
+              },
+            })
+            .then((response) => {
+              location.reload();
+              console.log(response);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    async updateData() {
+      if (localStorage.getItem("token") == "") {
+        this.$router.push("/");
+      }
+      axios
+        .post("http://127.0.0.1:8000/auth/jwt/refresh/", {
+          refresh: localStorage.getItem("token"),
+        })
+        .then((response) => {
+          console.log(this.resident);
+          console.log(this.resident.id);
+          localStorage.accessToken = response.data.access;
+          axios
+            .patch(`http://127.0.0.1:8000/api/v1/admin/user/${this.$route.params.id}/`, {
+              licSchet: this.resident.licSchet,
+              email: this.resident.email,
+              residents : this.resident.residents,
+              is_active : this.resident.is_active,
+              is_staff: this.resident.is_staff,
+            })
+            .then((response) => {
+              console.log(response);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    async updateMeter() {
+      const data = this.resident.data
+      if (localStorage.getItem("token") == "") {
+        this.$router.push("/");
+      }
+      axios
+        .post("http://127.0.0.1:8000/auth/jwt/refresh/", {
+          refresh: localStorage.getItem("token"),
+        })
+        .then((response) => {
+          
+          localStorage.accessToken = response.data.access;
+          axios
+            .put(`http://127.0.0.1:8000/api/v1/user/update/`, {
+              licSchet: this.resident.licSchet,
+              email: this.resident.email,
+              residents : this.resident.residents,
+              is_active : this.resident.is_active,
+              is_staff: this.resident.is_staff,
+              data : this.resident.data,
+              id: this.resident.id
+            },
+            )
+            .then((response) => {
+              console.log(this.resident);
+            })
+            .catch((error) => {
+              console.log(this.resident);
+              console.log(error);
+            });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    
   },
   mounted() {
     // ${this.$route.params.uidb64}

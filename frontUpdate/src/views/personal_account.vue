@@ -43,7 +43,9 @@
           </div>
           <div class="col-4 navbar-nav" style="justify-content: right">
             <router-link to="/profile" class="nav-link">Профиль</router-link>
-            <router-link to="/admin" class="nav-link" v-if="is_staff">Админка</router-link>
+            <router-link to="/admin" class="nav-link" v-if="is_staff"
+              >Админка</router-link
+            >
             <a class="nav-link" @click="logout">Выход</a>
           </div>
         </div>
@@ -51,8 +53,8 @@
     </nav>
     <div class="main">
       <div class="container">
-        <h1 class="text-center mt-5" v-if="first_name">
-          Добро пожаловать, {{ first_name + " " + second_name }}
+        <h1 class="text-center mt-5" v-if="first_name || last_name || second_name">
+          Добро пожаловать, {{last_name + " " + first_name + " " + second_name}}
         </h1>
         <h1 class="text-center mt-5" v-else>Добро пожаловать!</h1>
         <div class="row mt-5 mx-auto" style="justify-content: center">
@@ -103,21 +105,27 @@
         </div>
       </div>
 
-      <div class="container-2">
+      <div class="container-2" style="height: 50vh">
         <div class="invoice-2">
           <h2>Текущий чек</h2>
           <div class="invoice-items">
             <div class="invoice-item">
               <span class="item-label">Сумма за газ:</span>
-              <span class="item-value">{{ invoice_last.gasSumm }} ₽</span>
+              <span class="item-value" v-if="invoice_last.gasSumm"
+                >{{ invoice_last.gasSumm }} ₽</span
+              >
             </div>
             <div class="invoice-item">
               <span class="item-label">Сумма за воду:</span>
-              <span class="item-value">{{ invoice_last.waterSumm }} ₽</span>
+              <span class="item-value" v-if="invoice_last.waterSumm"
+                >{{ invoice_last.waterSumm }} ₽</span
+              >
             </div>
             <div class="invoice-item">
               <span class="item-label">Сумма за энергию:</span>
-              <span class="item-value">{{ invoice_last.electroSumm }} ₽</span>
+              <span class="item-value" v-if="invoice_last.electroSumm"
+                >{{ invoice_last.electroSumm }} ₽</span
+              >
             </div>
             <div class="invoice-item">
               <span class="item-label">Обслуживание дома:</span>
@@ -131,11 +139,22 @@
             </div>
             <div class="invoice-item">
               <span class="item-label">Общая сумма:</span>
-              <span class="item-value">{{ invoice_last.total }} ₽</span>
+              <span class="item-value" v-if="invoice_last.total"
+                >{{ invoice_last.total }} ₽</span
+              >
             </div>
           </div>
         </div>
       </div>
+      <div class="container-1">
+        <b-button
+          variant="primary"
+          @click="deleteData"
+          style="font-size: 20px; line-height: 30px"
+          >Удалить последние внесенные показания</b-button
+        >
+      </div>
+
       <hr class="mx-5" id="previous_data" />
       <div class="container">
         <h1 class="text-center mt-5">Данные за прошедший период</h1>
@@ -175,25 +194,25 @@
                   <div class="invoice-items">
                     <div class="invoice-item">
                       <span class="item-label">Сумма за газ:</span>
-                      <span class="item-value" v-if="invoiceActual.gasSumm"
+                      <span class="item-value" v-if="invoiceActual && invoiceActual.gasSumm"
                         >{{ invoiceActual.gasSumm }} ₽</span
                       >
                     </div>
                     <div class="invoice-item">
                       <span class="item-label">Сумма за воду:</span>
-                      <span class="item-value" v-if="invoiceActual.waterSumm"
+                      <span class="item-value" v-if="invoiceActual && invoiceActual.waterSumm"
                         >{{ invoiceActual.waterSumm }} ₽</span
                       >
                     </div>
                     <div class="invoice-item">
                       <span class="item-label">Сумма за энергию:</span>
-                      <span class="item-value" v-if="invoiceActual.electroSumm"
+                      <span class="item-value" v-if="invoiceActual && invoiceActual.electroSumm"
                         >{{ invoiceActual.electroSumm }} ₽</span
                       >
                     </div>
                     <div class="invoice-item">
                       <span class="item-label">Обслуживание дома:</span>
-                      <span class="item-value" v-if="invoiceActual.trashSumm"
+                      <span class="item-value" v-if="invoiceActual && invoiceActual.trashSumm"
                         >{{
                           Number(invoiceActual.trashSumm) +
                           Number(invoiceActual.repairSumm)
@@ -204,7 +223,7 @@
                     </div>
                     <div class="invoice-item">
                       <span class="item-label">Общая сумма:</span>
-                      <span class="item-value" v-if="invoiceActual.total"
+                      <span class="item-value" v-if="invoiceActual && invoiceActual.total"
                         >{{ invoiceActual.total }} ₽</span
                       >
                     </div>
@@ -312,6 +331,7 @@ export default {
       date: [],
       first_name: "",
       second_name: "",
+      last_name: "",
       is_staff: "false",
       dateError: "",
       options: {
@@ -359,10 +379,13 @@ export default {
     },
     invoice(index) {
       const count = this.Invoices.length;
-      this.invoiceActual = this.Invoices[count - index];
+      
+        this.invoiceActual = this.Invoices[count - index];
+      
+
     },
 
-    getGas(index) {
+    getGas() {
       const chart = this.$refs.chart.chart;
       chart.updateSeries([
         {
@@ -402,6 +425,35 @@ export default {
       });
       console.log(this.date);
     },
+    async deleteData() {
+      if (localStorage.getItem("token") == "") {
+        this.$router.push("/");
+      }
+      axios
+        .post("http://127.0.0.1:8000/auth/jwt/refresh/", {
+          refresh: localStorage.getItem("token"),
+        })
+        .then((response) => {
+          console.log(response);
+          localStorage.accessToken = response.data.access;
+          axios
+            .delete("http://127.0.0.1:8000/api/v1/user/deleteData/", {
+              headers: {
+                Authorization: `Bearer ${localStorage.accessToken}`,
+              },
+            })
+            .then((response) => {
+              location.reload();
+              console.log(response);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   },
   mounted() {
     if (localStorage.getItem("token") == "") {
@@ -422,10 +474,12 @@ export default {
           })
           .then((response) => {
             this.Invoices = response.data.invoice;
+            this.Invoices.sort((a, b) => new Date(a.date) - new Date(b.date));
             const count = this.Invoices.length;
             this.invoice_last = this.Invoices[count - 1];
             this.second_name = response.data.second_name;
             this.first_name = response.data.first_name;
+            this.last_name = response.data.last_name;
             this.is_staff = response.data.is_staff;
 
             response.data.costs.forEach((cost) => {
@@ -470,6 +524,12 @@ export default {
   border-top: none;
 }
 
+.container-1 {
+  text-align: center;
+  height: 20vh;
+  /* width: 70vh !important; */
+}
+
 .container-2 {
   display: flex;
   justify-content: center;
@@ -483,6 +543,7 @@ export default {
 .invoice-2 {
   border: 2px solid #333;
   padding: 50px;
+
   border-radius: 10px;
   width: 500px;
   text-align: center;

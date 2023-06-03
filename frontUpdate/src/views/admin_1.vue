@@ -58,6 +58,7 @@
             id="form1"
             class="form-control"
             placeholder="Search"
+            v-model="searchValue"
           />
         </div>
         <button type="button" class="btn btn-primary">
@@ -169,9 +170,8 @@ import axios from "axios";
 export default {
   data() {
     return {
-      residents: [
-        
-      ],
+      residents: [],
+      searchValue: "",
       filterStatus: "all", // "all", "activ", "nactiv"
       fields: [
         { key: "id", label: "id" },
@@ -193,27 +193,35 @@ export default {
   },
   computed: {
     filteredRole() {
-      switch (this.filterStatus) {
-        case "admin":
-          return this.residents.filter(
-            (resident) => resident.is_staff === true
-          );
-        case "user":
-          return this.residents.filter(
-            (resident) => resident.is_staff === false
-          );
-        case "active":
-          return this.residents.filter(
-            (resident) => resident.is_active === true
-          );
-        case "nactive":
-          return this.residents.filter(
-            (resident) => resident.is_active === false
-          );
-        default:
-          return this.residents;
-      }
-    },
+    const search = this.searchValue.toLowerCase(); // Приведите значение поиска к нижнему регистру
+    switch (this.filterStatus) {
+      case "admin":
+        return this.residents.filter((resident) => {
+          // Примените фильтр исходя из значения поиска
+          return resident.is_staff === true && resident.email.toLowerCase().includes(search);
+        });
+      case "user":
+        return this.residents.filter((resident) => {
+          // Примените фильтр исходя из значения поиска
+          return resident.is_staff === false && resident.email.toLowerCase().includes(search);
+        });
+      case "active":
+        return this.residents.filter((resident) => {
+          // Примените фильтр исходя из значения поиска
+          return resident.is_active === true && resident.email.toLowerCase().includes(search);
+        });
+      case "nactive":
+        return this.residents.filter((resident) => {
+          // Примените фильтр исходя из значения поиска
+          return resident.licSchet.toLowerCase().includes(search);
+        });
+      default:
+        return this.residents.filter((resident) => {
+          // Примените фильтр исходя из значения поиска
+          return resident.email.toLowerCase().includes(search) || resident.licSchet.toLowerCase().includes(search);
+        });
+    }
+  },
   },
   mounted() {
     if (localStorage.getItem("token") == "") {
