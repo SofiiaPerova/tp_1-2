@@ -1,4 +1,5 @@
-<template style="height: 100vh; padding: 0 10%">
+<template> 
+style="height: 100vh; padding: 0 10%">
   <div id="app1">
     <nav
       class="navbar navbar-expand-lg navbar-light"
@@ -43,7 +44,7 @@
             ></b-icon-person>
           </div>
           <div class="col-4 navbar-nav" style="justify-content: right">
-            <a class="nav-link" @click="logout">Выход</a>
+            <a href="#" class="nav-link" @click="logout">Выход</a>
           </div>
         </div>
       </div>
@@ -80,74 +81,77 @@
           </table>
         </div>
 
-        <div class="col-lg-3">
+       <div class="col-lg-3">
           <b-card
             header="Фильтры"
             header-bg-variant="primary"
             text-variant="white"
           >
             <b-card header="Статус персонала" header-bg-variant="primary">
-              <b-list-group>
-                <b-list-group-item
-                  href="#"
-                  @click="filterStatus = 'all'"
-                  :active="filterStatus === 'all'"
-                  button
-                  class="w-75 h-75"
-                >
-                  Все
-                </b-list-group-item>
-                <b-list-group-item
-                  href="#"
-                  @click="filterStatus = 'admin'"
-                  :active="filterStatus === 'admin'"
-                  button
-                  class="w-75 h-75"
-                >
-                  Администратор
-                </b-list-group-item>
-                <b-list-group-item
-                  href="#"
-                  @click="filterStatus = 'user'"
-                  :active="filterStatus === 'user'"
-                  button
-                  class="w-75 h-75"
-                >
-                  Плательщик
-                </b-list-group-item>
-              </b-list-group>
+              <div class="filter">
+                <b-list-group>
+                  <b-list-group-item
+                    href="#"
+                    @click="filterStatus = 'all'"
+                    :active="filterStatus === 'all'"
+                    button
+                    class="w-75 h-75"
+                  >
+                    Все
+                  </b-list-group-item>
+                  <b-list-group-item
+                    href="#"
+                    @click="filterStatus = 'admin'"
+                    :active="filterStatus === 'admin'"
+                    button
+                    class="w-75 h-75"
+                  >
+                    Администратор
+                  </b-list-group-item>
+                  <b-list-group-item
+                    href="#"
+                    @click="filterStatus = 'user'"
+                    :active="filterStatus === 'user'"
+                    button
+                    class="w-75 h-75"
+                  >
+                    Плательщик
+                  </b-list-group-item>
+                </b-list-group>
+              </div>
             </b-card>
 
             <b-card header="Активация" header-bg-variant="primary">
-              <b-list-group>
-                <b-list-group-item
-                  href="#"
-                  @click="filterStatus = 'all'"
-                  :active="filterStatus === 'all'"
-                  button
-                  class="w-75 h-75"
-                >
-                  Все
-                </b-list-group-item>
-                <b-list-group-item
-                  href="#"
-                  @click="filterStatus = 'active'"
-                  :active="filterStatus === 'active'"
-                  button
-                  class="w-75 h-75"
-                >
-                  Активирован
-                </b-list-group-item>
-                <b-list-group-item
-                  href="#"
-                  @click="filterStatus = 'nactive'"
-                  :active="filterStatus === 'nactive'"
-                  button
-                  class="w-75 h-75"
-                >
-                  Не активирован
-                </b-list-group-item>
-              </b-list-group>
+              <div class="filter">
+                <b-list-group style="width: 25vh">
+                  <b-list-group-item
+                    href="#"
+                    @click="filterStatus = 'all'"
+                    :active="filterStatus === 'all'"
+                    button
+                    class="w-75 h-75"                  >
+                    Все
+                  </b-list-group-item>
+                  <b-list-group-item
+                    href="#"
+                    @click="filterStatus = 'active'"
+                    :active="filterStatus === 'active'"
+                    button
+                    class="w-75 h-75"
+                  >
+                    Активирован
+                  </b-list-group-item>
+                  <b-list-group-item
+                    href="#"
+                    @click="filterStatus = 'nactive'"
+                    :active="filterStatus === 'nactive'"
+                    button
+                    class="w-75 h-75"
+                  >
+                    Не активирован
+                  </b-list-group-item>
+                </b-list-group>
+              </div>
             </b-card>
           </b-card>
         </div>
@@ -213,7 +217,7 @@ export default {
       case "nactive":
         return this.residents.filter((resident) => {
           // Примените фильтр исходя из значения поиска
-          return resident.licSchet.toLowerCase().includes(search);
+          return resident.licSchet.toLowerCase().includes(search) && resident.is_active === false;
         });
       default:
         return this.residents.filter((resident) => {
@@ -259,5 +263,8 @@ export default {
 .footer {
   margin-top: 1000px;
   padding-top: auto;
+}
+.filter {
+width: 10vh;
 }
 </style>

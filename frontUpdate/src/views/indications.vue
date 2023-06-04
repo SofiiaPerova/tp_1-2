@@ -43,7 +43,7 @@
           </div>
           <div class="col-4 navbar-nav" style="justify-content: right">
             <router-link to="/profile" class="nav-link">Профиль</router-link>
-            <a class="nav-link" @click="logout">Выход</a>
+            <a href="#" class="nav-link" @click="logout">Выход</a>
           </div>
         </div>
       </div>

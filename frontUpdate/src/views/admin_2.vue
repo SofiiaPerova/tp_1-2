@@ -43,7 +43,7 @@
           </div>
           <div class="col-4 navbar-nav" style="justify-content: right">
             <router-link to="/admin" class="nav-link">Админка</router-link>
-            <a class="nav-link" @click="logout">Выход</a>
+            <a href="#" class="nav-link" @click="logout">Выход</a>
           </div>
         </div>
       </div>
@@ -55,7 +55,11 @@
       >
         Редактирование
       </h3>
-
+	<div class="py-2" style="display: flex; justify-content: right">
+          <button type="submit" class="btn btn-primary" @click="deleteUser()">
+            Удалить пользователя
+          </button>
+        </div>
       <div class="row ps-2">
         <div class="col-md-6 my-3">
           <div class="mb-3 row pb-4" style="border-bottom: 1px solid #f0f0f0">
@@ -131,11 +135,8 @@
             />
             <label class="form-check-label" for="check2">Администратор</label>
           </div>
-          <div class="py-2" style="display: flex; justify-content: right">
-            <button type="submit" class="btn btn-primary" @click="updateData()">
-              Сохранить
-            </button>
-          </div>
+          
+           
           <i-collapsible variant="light">
             <i-collapsible-item title="Показания счетчиков">
               <div v-for="data in resident.data" :key="data.id" class="table">
@@ -452,14 +453,14 @@ export default {
         this.$router.push("/");
       }
       axios
-        .post("http://127.0.0.1:8000/auth/jwt/refresh/", {
+        .post(localStorage.ip +  "auth/jwt/refresh/", {
           refresh: localStorage.getItem("token"),
         })
         .then((response) => {
           console.log(response);
           localStorage.accessToken = response.data.access;
           axios
-            .delete(`http://127.0.0.1:8000/api/v1/user/deleteData/${id}/`, {
+            .delete( localStorage.ip +  `api/v1/user/deleteData/${id}/`, {
               headers: {
                 Authorization: `Bearer ${localStorage.accessToken}`,
               },
@@ -481,7 +482,7 @@ export default {
         this.$router.push("/");
       }
       axios
-        .post("http://127.0.0.1:8000/auth/jwt/refresh/", {
+        .post( localStorage.ip + "auth/jwt/refresh/", {
           refresh: localStorage.getItem("token"),
         })
         .then((response) => {
@@ -489,7 +490,7 @@ export default {
           console.log(this.resident.id);
           localStorage.accessToken = response.data.access;
           axios
-            .patch(`http://127.0.0.1:8000/api/v1/admin/user/${this.$route.params.id}/`, {
+            .patch( localStorage.ip + `api/v1/admin/user/${this.$route.params.id}/`, {
               licSchet: this.resident.licSchet,
               email: this.resident.email,
               residents : this.resident.residents,
@@ -513,14 +514,14 @@ export default {
         this.$router.push("/");
       }
       axios
-        .post("http://127.0.0.1:8000/auth/jwt/refresh/", {
+        .post( localStorage.ip + "auth/jwt/refresh/", {
           refresh: localStorage.getItem("token"),
         })
         .then((response) => {
           
           localStorage.accessToken = response.data.access;
           axios
-            .put(`http://127.0.0.1:8000/api/v1/user/update/`, {
+            .put( localStorage.ip + `api/v1/user/update/`, {
               licSchet: this.resident.licSchet,
               email: this.resident.email,
               residents : this.resident.residents,
@@ -542,6 +543,36 @@ export default {
           console.log(error);
         });
     },
+async deleteUser() {
+      if (localStorage.getItem("token") == "") {
+        this.$router.push("/");
+      }
+      axios
+        .post(localStorage.ip + "auth/jwt/refresh/", {
+          refresh: localStorage.getItem("token"),
+        })
+        .then((response) => {
+          console.log(this.resident);
+          console.log(this.resident.id);
+          localStorage.accessToken = response.data.access;
+          axios
+          .delete(localStorage.ip + `api/v1/admin/deleteUser/${this.$route.params.id}/`, {
+              headers: {
+                Authorization: `Bearer ${localStorage.accessToken}`,
+              },
+            })
+            .then((response) => {
+              this.$router.push("admin");
+              console.log(response);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
     
   },
   mounted() {
@@ -550,7 +581,7 @@ export default {
       this.$router.push("/");
     }
     axios
-      .post("http://127.0.0.1:8000/auth/jwt/refresh/", {
+      .post( localStorage.ip + "auth/jwt/refresh/", {
         refresh: localStorage.getItem("token"),
       })
       .then((response) => {
@@ -558,7 +589,7 @@ export default {
         localStorage.accessToken = response.data.access;
         axios
           .get(
-            `http://127.0.0.1:8000/api/v1/admin/user/${this.$route.params.id}/`,
+            localStorage.ip +  `api/v1/admin/user/${this.$route.params.id}/`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.accessToken}`,

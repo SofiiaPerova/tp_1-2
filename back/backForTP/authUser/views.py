@@ -122,7 +122,7 @@ class ActivateUser(UserViewSet):   # Активация аккаунта по с
 
     def activation(self, request, uid, token, *args, **kwargs):
         super().activation(request, *args, **kwargs)
-        return redirect(('http://192.168.3.2:8080/#/authorization'))
+        return redirect(('http://45.146.164.34:5000/authorization'))
 
 
 

@@ -2,7 +2,7 @@ from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmVie
 from django.http import JsonResponse
 from djoser.views import UserViewSet
 from rest_framework import generics
-from rest_framework.generics import get_object_or_404
+from rest_framework.generics import get_object_or_404, DestroyAPIView
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.views import *
 from .models import User, Invoice, Costs, Data
@@ -175,5 +175,7 @@ class UserDataUpdateAPIView(APIView):
                 return Response(data_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         return Response("User data updated successfully.")
-
-
+class UserDestroy(DestroyAPIView) :
+    queryset = User.objects.all()
+    lookup_field = 'pk'
+    permission_classes = [IsAdminUser, ]

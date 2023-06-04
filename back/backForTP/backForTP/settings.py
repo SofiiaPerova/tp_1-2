@@ -25,9 +25,9 @@ SECRET_KEY = 'django-insecure-wx^vn_fxe)$wfjs1r3s4^)469*&p+0!8i$04oif-dqdkwnl=(z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-FRONTEND_URL = 'localhost:8080'
+FRONTEND_URL = '45.146.164.34:5000'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['45.146.164.34']
 
 
 # Application definition
@@ -91,7 +91,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'forTP',
         'USER': 'postgres',
-        'PASSWORD': 'qwerty123',
+        'PASSWORD': 'ghFr45cV_',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }

@@ -44,9 +44,9 @@
           <div class="col-4 navbar-nav" style="justify-content: right">
             <router-link to="/profile" class="nav-link">Профиль</router-link>
             <router-link to="/admin" class="nav-link" v-if="is_staff"
-              >Админка</router-link
+	    >Админка</router-link
             >
-            <a class="nav-link" @click="logout">Выход</a>
+            <a href="#" class="nav-link" @click="logout">Выход</a>
           </div>
         </div>
       </div>
@@ -437,13 +437,13 @@ export default {
           console.log(response);
           localStorage.accessToken = response.data.access;
           axios
-            .delete(localStorage.ip + "api/v1/user/deleteData/", {
+            .delete(localStorage.ip + "api/v1/user/deleteLastData/", {
               headers: {
                 Authorization: `Bearer ${localStorage.accessToken}`,
               },
             })
             .then((response) => {
-              location.reload();
+              window.location.reload();
               console.log(response);
             })
             .catch((error) => {
@@ -473,14 +473,16 @@ export default {
             },
           })
           .then((response) => {
-            this.Invoices = response.data.invoice;
-            this.Invoices.sort((a, b) => new Date(a.date) - new Date(b.date));
-            const count = this.Invoices.length;
-            this.invoice_last = this.Invoices[count - 1];
             this.second_name = response.data.second_name;
             this.first_name = response.data.first_name;
             this.last_name = response.data.last_name;
             this.is_staff = response.data.is_staff;
+            if (response.data.invoice.length > 0) {
+              this.Invoices = response.data.invoice;
+              this.Invoices.sort((a, b) => new Date(a.date) - new Date(b.date));
+              const count = this.Invoices.length;
+              this.invoice_last = this.Invoices[count - 1];
+            }  
 
             response.data.costs.forEach((cost) => {
               this.gas.push(cost.gasCost);
@@ -520,7 +522,7 @@ export default {
   margin: 10px;
   margin-top: 0px;
   margin-bottom: 0px;
-  border-radius: 10px;
+  border-radius: 0px;
   border-top: none;
 }
 

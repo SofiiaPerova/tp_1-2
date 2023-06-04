@@ -36,8 +36,15 @@ class dataSerializer(serializers.ModelSerializer):
         user = self.context['request'].user
 
         # Создать экземпляр Data с переданными данными
+        if len(str(validated_data['gas'])) >= 6:
+            raise ValueError('Показания газа должны содержать менее 6 цифр')
+        if len(str(validated_data['water'])) >= 6:
+            raise ValueError('Показания воды должны содержать менее 6 цифр')
+        if len(str(validated_data['electro'])) >= 6:
+            raise ValueError('Показания энергии должны содержать менее 6 цифр')
 
         if user.data.count() > 0 :
+
             previous_record = Data.objects.filter(userID=user).order_by('-date')[0]
             if previous_record:
                 if int(validated_data['gas']) <= int(previous_record.gas):

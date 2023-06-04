@@ -29,7 +29,7 @@ const routes = [
 
   
 ]
-localStorage.ip = "http://45.146.164.34:8000/";
+localStorage.ip = "http://45.146.164.34:8080/";
 const router = new VueRouter({
   mode: 'history',
   routes
