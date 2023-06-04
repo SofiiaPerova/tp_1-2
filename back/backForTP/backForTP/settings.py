@@ -26,9 +26,9 @@ SECRET_KEY = 'django-insecure-wx^vn_fxe)$wfjs1r3s4^)469*&p+0!8i$04oif-dqdkwnl=(z
 DEBUG = False
 
 FRONTEND_URL = '45.146.164.34:5000'
-
+# FRONTEND_URL = 'http://127.0.0.1:5000/'
 ALLOWED_HOSTS = ['45.146.164.34']
-
+# ALLOWED_HOSTS = []
 
 
 
@@ -225,5 +225,6 @@ DEFAULT_FROM_EMAIL = 'denistestfortp@mail.ru'
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5002',
+    'http://localhost:5000',
     'http://45.146.164.34:5000',
 ]

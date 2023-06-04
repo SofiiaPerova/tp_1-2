@@ -60,7 +60,7 @@
             />
             <label class="form-label" for="form2Example28">Password</label>
           </div>
-          
+
           <div class="mb-4" style="justify-content: right; display: flex">
             <button
               class="btn btn-info btn-lg btn-block px-5"
@@ -88,14 +88,19 @@
       <!-- /.row -->
     </div>
     <!-- /.container -->
-    <footer class="footer mt-auto" style="padding-top: 3rem !important">
-      <div
-        class="text-center p-3"
-        style="background-color: rgba(221, 238, 255, 1)"
-      >
-        <p class="text-dark" href="#">© 2023 Copyright: Контактные данные</p>
-      </div>
-    </footer>
+    <div class="container4">
+      <footer class="footer mt-auto" style="padding-top: 3rem !important">
+        <div
+          class="text-center p-3"
+          style="background-color: rgba(221, 238, 255, 1)"
+        >
+          <p class="text-dark" href="#">
+            © 2023 Copyright: Телефон: 8-900-300-53-02. Почта:
+            denistestfortp@mail.ru
+          </p>
+        </div>
+      </footer>
+    </div>
   </div>
 </template>
 
@@ -115,35 +120,26 @@ export default {
 
   methods: {
     async login() {
-      try {
-        const response = await axios
-          .post(localStorage.ip + "auth/jwt/create/", {
-            email: this.email,
-            password: this.password,
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-        if (response) {
+      axios
+        .post(localStorage.ip + "auth/jwt/create/", {
+          email: this.email,
+          password: this.password,
+        })
+        .then((response) => {
+          console.log(response);
           localStorage.token = response.data.refresh;
-          this.$router.push('/personal_account');
-          this.token = localStorage.token;
-        } else {
+          this.$router.push("/personal_account");
+        })
+        .catch((error) => {
+          console.log(error);
           this.loginError = "Неверный логин или пароль";
-        }
-        console.log(response.data);
-        
-      } catch (error) {
-        console.error(error);
-      }
+        });
     },
   },
   mounted() {
     if (localStorage.token) {
       this.token = localStorage.token;
-      this.$router.push('/personal_account');
-    } else {
-      this.token = "";
+      this.$router.push("/personal_account");
     }
   },
 };
@@ -151,7 +147,6 @@ export default {
 
 
 <style>
-
 /* Demo Background
 body{background:url(/images/bg/bg-6.png)} */
 
@@ -163,5 +158,10 @@ body{background:url(/images/bg/bg-6.png)} */
   padding: 35px 0;
   border-bottom: 1px solid #f0f0f0;
   margin-bottom: 30px;
+}
+.container4 {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
 </style>

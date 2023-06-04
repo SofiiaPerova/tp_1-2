@@ -1,3 +1,4 @@
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
 
 from djoser.views import UserViewSet
@@ -179,4 +180,9 @@ class UserCreateAPIView(CreateAPIView): # Создание пользовате�
     queryset = User.objects.all()
     serializer_class = UserCreateSerializer
     permission_classes = [IsOwnerOrAdmin, ]
+
+    def perform_create(self, serializer):
+        password = serializer.validated_data.get('password')
+        hashed_password = make_password(password)
+        serializer.save(password=hashed_password)
 

@@ -49,7 +49,7 @@
     </nav>
     <div class="container">
       <h1 class="text-center mt-5">Внесение показаний</h1>
-      <h1 class="text-center mt-5" style="color: red;">{{ error }}</h1>
+      <h1 class="text-center mt-5" style="color: red">{{ error }}</h1>
       <div class="row my-5 mx-auto" style="justify-content: center">
         <div class="col-lg-5 card" style="border-radius: 15px">
           <div class="card-body">
@@ -126,14 +126,19 @@
       </div>
     </div>
 
-    <footer class="footer mt-auto" style="padding-top: 3rem !important">
-      <div
-        class="text-center p-3"
-        style="background-color: rgba(221, 238, 255, 1)"
-      >
-        <p class="text-dark" href="#">© 2023 Copyright: Контактные данные</p>
-      </div>
-    </footer>
+    <div class="container4">
+      <footer class="footer mt-auto" style="padding-top: 3rem !important">
+        <div
+          class="text-center p-3"
+          style="background-color: rgba(221, 238, 255, 1)"
+        >
+          <p class="text-dark" href="#">
+            © 2023 Copyright: Телефон: 8-900-300-53-02. Почта:
+            denistestfortp@mail.ru
+          </p>
+        </div>
+      </footer>
+    </div>
   </div>
 </template>
 
@@ -198,14 +203,14 @@ export default {
       this.$router.push("/");
     }
     axios
-      .post( localStorage.ip +"auth/jwt/refresh/", {
+      .post(localStorage.ip + "auth/jwt/refresh/", {
         refresh: localStorage.getItem("token"),
       })
       .then((response) => {
         console.log(response);
         localStorage.accessToken = response.data.access;
         axios
-          .get( localStorage.ip +"api/v1/user/profile/", {
+          .get(localStorage.ip + "api/v1/user/profile/", {
             headers: {
               Authorization: `Bearer ${localStorage.accessToken}`,
             },
@@ -227,3 +232,11 @@ export default {
   },
 };
 </script>
+
+<style>
+.container4 {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+</style>
