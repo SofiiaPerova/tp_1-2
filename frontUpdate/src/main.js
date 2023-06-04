@@ -6,6 +6,7 @@ import Inkline from '@inkline/inkline';
 import '@inkline/inkline/dist/inkline.css';
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import VueApexCharts from 'vue-apexcharts'
 

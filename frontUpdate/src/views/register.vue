@@ -247,7 +247,7 @@ export default {
   methods: {
     async registration() {
       axios
-        .post( localStorage.ip +"auth/users/", {
+        .post(localStorage.ip + "auth/users/", {
           licSchet: this.licSchet,
           email: this.email,
           password: this.password,
@@ -335,7 +335,7 @@ export default {
     
     
     
-    <style type="text/css">
+<style type="text/css">
 @media (min-width: 1025px) {
   .h-custom {
     height: 100vh !important;
