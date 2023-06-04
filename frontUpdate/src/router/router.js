@@ -10,6 +10,7 @@ import RecoveryPass1 from '@/views/recovery_pass'
 import RecoveryPass2 from '@/views/recovery_pass2'
 import Admin_1 from '@/views/admin_1'
 import Admin_2 from '@/views/admin_2'
+import Admin_CreateUser from '@/views/create_user'
 
 
 Vue.use(VueRouter)
@@ -26,10 +27,12 @@ const routes = [
 
   {path: '/admin', component: Admin_1},
   {path: '/admin_2/:id/', component: Admin_2},
+  {path: '/admin/createUser', component: Admin_CreateUser},
 
   
 ]
-localStorage.ip = "http://45.146.164.34:8080/";
+// localStorage.ip = "http://45.146.164.34:8080/";
+localStorage.ip = "http://127.0.0.1:8000/";
 const router = new VueRouter({
   mode: 'history',
   routes

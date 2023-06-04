@@ -11,6 +11,7 @@ urlpatterns = [
     path('admin/user/<id>/', allUserData.as_view()),  # Вывод всей информации по пользователю для Админки
     path('admin/users/', allUsers.as_view()),  # Вывод всех пользователей
     path('admin/deleteUser/<int:pk>/', UserDestroy.as_view()),
+    path('admin/createUser/', UserCreateAPIView.as_view()),
 
     path('user/inputMeter/', postMeterUser.as_view()),  # Ввод показаний со счетчиков
     path('user/updateMeter/<int:id>/', updateMeter.as_view()), # Обновление данных

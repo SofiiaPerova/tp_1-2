@@ -1,8 +1,8 @@
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
-from django.http import JsonResponse
+
 from djoser.views import UserViewSet
 from rest_framework import generics
-from rest_framework.generics import get_object_or_404, DestroyAPIView
+from rest_framework.generics import DestroyAPIView, CreateAPIView
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.views import *
 from .models import User, Invoice, Costs, Data
@@ -60,11 +60,6 @@ class ActivateUser(UserViewSet):   # Активация аккаунта по с
     def activation(self, request, uid, token, *args, **kwargs):
         super().activation(request, *args, **kwargs)
         return Response(status=status.HTTP_204_NO_CONTENT)
-
-class AdminRegistrationView(generics.CreateAPIView) : # Регистрация админа
-    queryset = User.objects.all()
-    serializer_class = AdminRegistrationSerializer
-    permission_classes = [IsAdminUser, ]
 
 class allUsers(generics.ListAPIView) : # Вывод данных всех пользователей
     queryset = User.objects.all()
@@ -179,3 +174,9 @@ class UserDestroy(DestroyAPIView) :
     queryset = User.objects.all()
     lookup_field = 'pk'
     permission_classes = [IsAdminUser, ]
+
+class UserCreateAPIView(CreateAPIView): # Создание пользователя админом
+    queryset = User.objects.all()
+    serializer_class = UserCreateSerializer
+    permission_classes = [IsOwnerOrAdmin, ]
+

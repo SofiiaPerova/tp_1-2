@@ -23,11 +23,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-wx^vn_fxe)$wfjs1r3s4^)469*&p+0!8i$04oif-dqdkwnl=(z'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 FRONTEND_URL = '45.146.164.34:5000'
 
 ALLOWED_HOSTS = ['45.146.164.34']
+
+
 
 
 # Application definition
@@ -154,7 +156,7 @@ REST_FRAMEWORK = {
 
 }
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=300),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=10),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
     "ROTATE_REFRESH_TOKENS": False,
     "BLACKLIST_AFTER_ROTATION": False,
@@ -222,8 +224,6 @@ EMAIL_HOST_PASSWORD = 'v0RwEJwzrdKkzRqS8P9g'
 DEFAULT_FROM_EMAIL = 'denistestfortp@mail.ru'
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:5000',
-    'http://localhost:8080',
-    'http://192.168.3.2:8080',
-    'http://45.146.164.34:5000'
+    'http://localhost:5002',
+    'http://45.146.164.34:5000',
 ]

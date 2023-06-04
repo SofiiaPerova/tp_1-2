@@ -11,7 +11,6 @@ urlpatterns = [
          CustomPasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('password/reset/complite/', PasswordResetCompleteView.as_view(), name='password_reset_complete'), # Страница, говорящая об успешной смене пароля
 
-    path('admin/create/', AdminRegistrationView.as_view()), # Регистрация админа
     path('', include('djoser.urls')),  # регистрация и авторизация
     path('', include('djoser.urls.jwt')),  # получение токена
 

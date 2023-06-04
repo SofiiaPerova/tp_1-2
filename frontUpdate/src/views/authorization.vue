@@ -73,7 +73,7 @@
           </div>
           <p class="small mb-2">
             <router-link to="/recovery_pass_1" class="text-muted"
-              >Forgot password?</router-link
+              >Забыли пароль?</router-link
             >
           </p>
           <p>

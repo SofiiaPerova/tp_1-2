@@ -39,7 +39,7 @@
     <div class="container-fluid">
       <div class="row justify-content-center" style="text-align-last: center">
         <span class="heading">Восстановление пароля </span>
-        <div>{{ message }}</div>
+        <h2>{{ message }}</h2>
         <div class="col-md-5 col-12">
           <div class="form-outline mb-4" style="text-align-last: left">
             <input
@@ -106,7 +106,7 @@ export default {
         })
         .catch((error) => {
           console.log(error);
-          this.message = "Da bl9";
+          this.message = "Неверные данные";
         });
     },
   },

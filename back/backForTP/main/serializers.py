@@ -10,21 +10,13 @@ class UserCustomSerializer(serializers.ModelSerializer) :
         model = User
         fields = ['id', 'licSchet', 'email', 'residents', 'username', 'is_active', 'first_name', 'second_name', 'last_name', 'is_staff']
 
-class AdminRegistrationSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)
-
+class UserCreateSerializer(serializers.ModelSerializer):
+    is_staff = serializers.BooleanField(default=False)
+    is_active = serializers.BooleanField(default=False)
     class Meta:
         model = User
-        fields = ('username', 'email', 'password', 'is_staff')
+        fields = ['email', 'licSchet', 'password', 'is_staff', 'is_active']
 
-    def create(self, validated_data):
-        user = User.objects.create_user(
-            validated_data['username'],
-            validated_data['email'],
-            validated_data['password'],
-            is_staff=True
-        )
-        return user
 
 class dataSerializer(serializers.ModelSerializer):
     class Meta:

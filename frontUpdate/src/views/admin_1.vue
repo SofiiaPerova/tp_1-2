@@ -1,5 +1,4 @@
-<template> 
-style="height: 100vh; padding: 0 10%">
+<template>
   <div id="app1">
     <nav
       class="navbar navbar-expand-lg navbar-light"
@@ -66,6 +65,11 @@ style="height: 100vh; padding: 0 10%">
           <b-icon-search></b-icon-search>
         </button>
       </div>
+      <div class="py-2" style="display: flex; justify-content: left">
+        <router-link to="/admin/createUser" class="btn btn-primary"
+              >Создать нового пользователя</router-link
+            >
+      </div>
 
       <div class="row" style="margin-top: 20px">
         <div class="col-lg-9">
@@ -81,7 +85,7 @@ style="height: 100vh; padding: 0 10%">
           </table>
         </div>
 
-       <div class="col-lg-3">
+        <div class="col-lg-3">
           <b-card
             header="Фильтры"
             header-bg-variant="primary"
@@ -89,7 +93,7 @@ style="height: 100vh; padding: 0 10%">
           >
             <b-card header="Статус персонала" header-bg-variant="primary">
               <div class="filter">
-                <b-list-group>
+                <b-list-group style="width: 25vh">
                   <b-list-group-item
                     href="#"
                     @click="filterStatus = 'all'"
@@ -129,7 +133,8 @@ style="height: 100vh; padding: 0 10%">
                     @click="filterStatus = 'all'"
                     :active="filterStatus === 'all'"
                     button
-                    class="w-75 h-75"                  >
+                    class="w-75 h-75"
+                  >
                     Все
                   </b-list-group-item>
                   <b-list-group-item
@@ -197,35 +202,50 @@ export default {
   },
   computed: {
     filteredRole() {
-    const search = this.searchValue.toLowerCase(); // Приведите значение поиска к нижнему регистру
-    switch (this.filterStatus) {
-      case "admin":
-        return this.residents.filter((resident) => {
-          // Примените фильтр исходя из значения поиска
-          return resident.is_staff === true && resident.email.toLowerCase().includes(search);
-        });
-      case "user":
-        return this.residents.filter((resident) => {
-          // Примените фильтр исходя из значения поиска
-          return resident.is_staff === false && resident.email.toLowerCase().includes(search);
-        });
-      case "active":
-        return this.residents.filter((resident) => {
-          // Примените фильтр исходя из значения поиска
-          return resident.is_active === true && resident.email.toLowerCase().includes(search);
-        });
-      case "nactive":
-        return this.residents.filter((resident) => {
-          // Примените фильтр исходя из значения поиска
-          return resident.licSchet.toLowerCase().includes(search) && resident.is_active === false;
-        });
-      default:
-        return this.residents.filter((resident) => {
-          // Примените фильтр исходя из значения поиска
-          return resident.email.toLowerCase().includes(search) || resident.licSchet.toLowerCase().includes(search);
-        });
-    }
-  },
+      const search = this.searchValue.toLowerCase(); // Приведите значение поиска к нижнему регистру
+      switch (this.filterStatus) {
+        case "admin":
+          return this.residents.filter((resident) => {
+            // Примените фильтр исходя из значения поиска
+            return (
+              resident.is_staff === true &&
+              resident.email.toLowerCase().includes(search)
+            );
+          });
+        case "user":
+          return this.residents.filter((resident) => {
+            // Примените фильтр исходя из значения поиска
+            return (
+              resident.is_staff === false &&
+              resident.email.toLowerCase().includes(search)
+            );
+          });
+        case "active":
+          return this.residents.filter((resident) => {
+            // Примените фильтр исходя из значения поиска
+            return (
+              resident.is_active === true &&
+              resident.email.toLowerCase().includes(search)
+            );
+          });
+        case "nactive":
+          return this.residents.filter((resident) => {
+            // Примените фильтр исходя из значения поиска
+            return (
+              resident.licSchet.toLowerCase().includes(search) &&
+              resident.is_active === false
+            );
+          });
+        default:
+          return this.residents.filter((resident) => {
+            // Примените фильтр исходя из значения поиска
+            return (
+              resident.email.toLowerCase().includes(search) ||
+              resident.licSchet.toLowerCase().includes(search)
+            );
+          });
+      }
+    },
   },
   mounted() {
     if (localStorage.getItem("token") == "") {
@@ -265,6 +285,6 @@ export default {
   padding-top: auto;
 }
 .filter {
-width: 10vh;
+  width: 10vh;
 }
 </style>

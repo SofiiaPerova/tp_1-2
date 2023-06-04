@@ -11,13 +11,15 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from djoser.views import UserViewSet
 
 from rest_framework import status, generics
+from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import IsAdminUser, AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from authUser.serializers import UserSerializer
 from backForTP import settings
 from main.models import User
-from main.serializers import AdminRegistrationSerializer
+
 
 
 class sendEmail(APIView) :
@@ -63,53 +65,6 @@ class CustomPasswordResetConfirmView(APIView):
         else:
             return Response({'error': 'Token is invalid or has expired'}, status=status.HTTP_400_BAD_REQUEST)
 
-
-# Create your views here.
-# @csrf_exempt
-#
-# class CustomPasswordResetView(PasswordResetView):
-#
-#     def __init__(self, **kwargs):
-#         super().__init__(**kwargs)
-#     def send_email(self, **kwargs):
-#         """Отправляет email с ссылкой на сброс пароля"""
-#         to = [self.email]
-#         # Генерируем токен и кодируем его для добавления в ссылку
-#         token = default_token_generator.make_token(self.user)
-#         uid = urlsafe_base64_encode(force_bytes(self.user.pk))
-#         # Собираем ссылку для сброса пароля
-#         url = "http://localhost:8080/recovery_pass_2/"
-#         reset_url = f"{url}?uid={uid}&token={token}"
-#         # Формируем текст и тему email-сообщения
-#         subject = 'Сброс пароля'
-#         message = f"Здравствуйте! На этой странице вы можете сбросить свой пароль: {reset_url}"
-#         # Отправляем email-сообщение
-#         send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, to, fail_silently=False)
-#
-#     def post(self, request, *args, **kwargs):
-#         serializer = self.get_serializer(data=request.data)
-#         serializer.is_valid(raise_exception=True)
-#         self.user = serializer.validated_data['user']
-#         self.email = self.user.email
-#         self.send_email()
-#         return Response({'detail':('Password reset e-mail has been sent.')})
-#
-# @csrf_exempt
-# class CustomPasswordResetConfirmView(PasswordResetConfirmView):
-#     def post(self, request, *args, **kwargs):
-#         serializer = self.get_serializer(data=request.data)
-#         serializer.is_valid(raise_exception=True)
-#         user = serializer.user
-#         # Проверяем, что токен верен
-#         if not default_token_generator.check_token(user, serializer.validated_data['token']):
-#             return Response({'token': ['Недействительный токен']}, status=status.HTTP_400_BAD_REQUEST)
-#         # Устанавливаем новый пароль
-#         new_password = serializer.validated_data['new_password']
-#         user.set_password(new_password)
-#         user.save()
-#         # Возвращаем успешный ответ
-#         return Response({'detail': 'Пароль успешно изменен'})
-#
 class ActivateUser(UserViewSet):   # Активация аккаунта по ссылке на почту
     def get_serializer(self, *args, **kwargs):
         serializer_class = self.get_serializer_class()
@@ -127,7 +82,3 @@ class ActivateUser(UserViewSet):   # Активация аккаунта по с
 
 
 
-class AdminRegistrationView(generics.CreateAPIView) : # Регистрация админа
-    queryset = User.objects.all()
-    serializer_class = AdminRegistrationSerializer
-    permission_classes = [IsAdminUser, ]
