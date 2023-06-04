@@ -209,14 +209,19 @@
         </div>
       </div>
     </div>
-    <footer class="footer mt-auto" style="padding-top: 3rem !important">
-      <div
-        class="text-center p-3"
-        style="background-color: rgba(221, 238, 255, 1)"
-      >
-        <p class="text-dark" href="#">© 2023 Copyright: Контактные данные</p>
-      </div>
-    </footer>
+    <div class="container4">
+      <footer class="footer mt-auto" style="padding-top: 3rem !important">
+        <div
+          class="text-center p-3"
+          style="background-color: rgba(221, 238, 255, 1)"
+        >
+          <p class="text-dark" href="#">
+            © 2023 Copyright: Телефон: 8-900-300-53-02. Почта:
+            denistestfortp@mail.ru
+          </p>
+        </div>
+      </footer>
+    </div>
   </div>
 </template>
     
@@ -384,6 +389,11 @@ export default {
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
   }
+}
+.container4 {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
 </style>
     

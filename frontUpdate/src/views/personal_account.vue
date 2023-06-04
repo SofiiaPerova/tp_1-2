@@ -1,63 +1,51 @@
 <template>
   <div>
-    <nav
-      class="navbar navbar-expand-lg navbar-light"
-      style="
-        padding: 0.5rem 1rem;
-        padding-top: 0.5rem;
-        padding-right: 1rem;
-        padding-bottom: 0.5rem;
-        padding-left: 1rem;
-        background-color: rgba(221, 238, 255, 1);
-      "
-    >
-      <div class="container-fluid">
-        <!-- <a class="navbar-brand" href="#">УК</a> -->
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNavAltMarkup"
-          aria-controls="navbarNavAltMarkup"
-          aria-expanded="false"
-          aria-label="Переключатель навигации"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div
-          class="row collapse navbar-collapse px-3 pt-2"
-          id="navbarNavAltMarkup"
-          style="align-items: flex-start"
-        >
-          <div class="col-4 navbar-nav mb-2 mb-lg-0">
-            <router-link to="/personal_account" class="nav-link"
-              >Главная</router-link
-            >
-          </div>
-          <div class="col-4 navbar-nav" style="justify-content: center">
-            <i
-              class="bi bi-person-circle"
-              style="font-size: 2rem"
-              aria-hidden="true"
-            ></i>
-          </div>
-          <div class="col-4 navbar-nav" style="justify-content: right">
-            <router-link to="/profile" class="nav-link">Профиль</router-link>
-            <router-link to="/admin" class="nav-link" v-if="is_staff"
-	    >Админка</router-link
-            >
-            <a href="#" class="nav-link" @click="logout">Выход</a>
-          </div>
-        </div>
+    <nav class="row navbar navbar-expand-lg navbar-light"
+    style="padding: .5rem 1rem;
+    padding-top: 0.5rem;
+    padding-right: 1rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+    background-color: rgba(221, 238, 255, 1);">
+    <div class="row mx-auto mb-2">
+      <!-- <a class="navbar-brand" href="#">УК</a> -->
+      <button class="col navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+      aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Переключатель навигации">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-collapse collapse" id="navbarNavAltMarkup" style="">
+      <div class="col">
+      <div class="navbar-nav" id="nav-first-child" style="align-items: center; text-align-last: center;">
+        <router-link to="/personal_account" class="nav-link">Главная</router-link>
       </div>
-    </nav>
-    <div class="main">
+      </div>
+      <div class="col navbar-nav p-2" style="align-items: center;">
+      <b-icon-person-circle
+            style="width: 30px; height: 30px; justify-content: center; display: flex; align-self: center;">
+            </b-icon-person-circle>
+      </div>
+      <div class="col">
+      <div class="navbar-nav" style="align-items: center; text-align-last: center;">
+        <router-link to="/profile" class="nav-link">Профиль</router-link>
+      </div>
+      <div class="navbar-nav" style="align-items: center; text-align-last: center;">
+        <router-link to="/admin" class="nav-link" v-if="is_staff"
+	    >Админка</router-link>
+      </div>
+      <div class="navbar-nav" style="align-items: center; text-align-last: center;">
+            <a href="#" class="nav-link" @click="logout">Выход</a>
+      </div>
+      </div>
+    </div>
+  </div>
+</nav>
+    <div class="main m-5">
       <div class="container">
         <h1 class="text-center mt-5" v-if="first_name || last_name || second_name">
           Добро пожаловать, {{last_name + " " + first_name + " " + second_name}}
         </h1>
         <h1 class="text-center mt-5" v-else>Добро пожаловать!</h1>
-        <div class="row mt-5 mx-auto" style="justify-content: center">
+        <div class="row m-5" style="justify-content: center">
           <h2
             class="text-center mt-5"
             v-if="dateError"
@@ -65,7 +53,7 @@
           >
             {{ dateError }}
           </h2>
-          <div class="col-md-4 mr-12" v-else>
+          <div class="col-md-4 pb-3" v-else>
             <div class="card">
               <b-icon-pencil-square
                 style="
@@ -83,7 +71,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-4 ml-12">
+          <div class="col-md-4 pb-3">
             <div class="card">
               <b-icon-clipboard-data
                 style="
@@ -105,10 +93,10 @@
         </div>
       </div>
 
-      <div class="container-2" style="height: 50vh">
-        <div class="invoice-2">
-          <h2>Текущий чек</h2>
-          <div class="invoice-items">
+      <div class="col-8 col-md-5 col-xxl-3 mx-auto /*container-2*/">
+        <div class="row py-4 invoice-2">
+          <h2 style="text-align: center">Текущий чек</h2>
+          <div class="row my-3 /*invoice-items*/">
             <div class="invoice-item">
               <span class="item-label">Сумма за газ:</span>
               <span class="item-value" v-if="invoice_last.gasSumm"
@@ -146,20 +134,21 @@
           </div>
         </div>
       </div>
-      <div class="container-1">
+      <div class="d-flex justify-content-center my-5">
         <b-button
           variant="primary"
           @click="deleteData"
-          style="font-size: 20px; line-height: 30px"
+          style="font-size: 20px"
           >Удалить последние внесенные показания</b-button
         >
       </div>
 
       <hr class="mx-5" id="previous_data" />
-      <div class="container">
-        <h1 class="text-center mt-5">Данные за прошедший период</h1>
-        <div class="row mt-5 mx-auto" style="justify-content: center">
-          <div class="col-md-4 my-auto mx-auto">
+      <div class="container-5">
+        <h1 class="text-center my-5 py-5">Данные за прошедший период</h1>
+        <div class="row my-5 py-5 mx-auto" style="justify-content: center">
+          <div class="col-md-5 my-auto mx-5">
+          <div class="col-xs my-3">
             <div class="list-group list-group-flush">
               <div class="buttons">
                 <button
@@ -185,13 +174,13 @@
                 </button>
               </div>
             </div>
+            </div>
           </div>
-          <div class="col-md-4 mx-auto">
-            <div class="p-5 mx-7">
-              <div class="container-2">
-                <div class="invoice-2">
-                  <h2>Чек на оплату</h2>
-                  <div class="invoice-items">
+          <div class="col-8 col-md-4 mx-auto mt-5 /*container-2*/">
+
+                <div class="row py-4 invoice-2">
+                  <h2 style="text-align: center">Чек на оплату</h2>
+                  <div class="row my-3 /*invoice-items*/">
                     <div class="invoice-item">
                       <span class="item-label">Сумма за газ:</span>
                       <span class="item-value" v-if="invoiceActual && invoiceActual.gasSumm"
@@ -228,8 +217,7 @@
                       >
                     </div>
                   </div>
-                </div>
-              </div>
+
             </div>
           </div>
         </div>
@@ -237,10 +225,10 @@
       <br />
       <br />
       <hr class="mx-5" />
-      <h1 class="text-center mt-5">Статистика потребления</h1>
-      <div class="container py-5">
-        <div class="row mt-5 mx-auto" style="justify-content: center">
-          <div class="col-md-4 my-auto mx-auto">
+      <h1 class="text-center my-5 pt-5">Статистика потребления</h1>
+      <div class="container-4 py-5">
+        <div class="row mt-5 mx-auto my-5 py-5" style="justify-content: center">
+          <div class="col-md-5 my-auto me-2">
             <div class="list-group list-group-flush">
               <div class="buttons">
                 <button
@@ -268,12 +256,10 @@
             </div>
           </div>
 
-          <div class="col-md-4 mx-auto">
-            <div class="container" id="previous_data"></div>
+          <div class="col-md-6 mt-4" style="overflow: auto">
+
             <!-- <h1 class="text-center mt-5">Статистика потребления</h1> -->
-            <div class="container-3">
-              <div class="p-5 mx-4">
-                <div class="container-3">
+
                   <apexchart
                     class="chart"
                     ref="chart"
@@ -284,9 +270,7 @@
                     :series="series"
                     :xaxis="xaxis"
                   ></apexchart>
-                </div>
-              </div>
-            </div>
+
           </div>
         </div>
       </div>
@@ -516,40 +500,65 @@ export default {
 </script>
 
 <style>
+@media (min-width: 992px) {
+            div.col.navbar-nav {
+                justify-content: center;
+            }
+            div.navbar-nav {
+                float: right;
+            }
+            #nav-first-child {
+                float: left;
+            }
+        }
+
 .main {
   border: 5px solid rgba(221, 238, 255, 1);
   padding: 10px;
   margin: 10px;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  border-radius: 0px;
-  border-top: none;
+
+
+  border-radius: 10px;
+
 }
 
 .container-1 {
   text-align: center;
   height: 20vh;
-  /* width: 70vh !important; */
+  width: 70vh !important;
 }
+*/
 
 .container-2 {
   display: flex;
   justify-content: center;
   align-items: center;
+  /*
   margin-left: auto;
   margin-right: auto;
   height: 70vh;
   width: 70vh !important;
+  */
 }
+/* .container-4 {
+  margin: 5%;
+}
+
+.container-5 {
+  margin: 8%;
+} */
 
 .invoice-2 {
   border: 2px solid #333;
-  padding: 50px;
-
+  justify-content: center;
   border-radius: 10px;
+  /*
+  padding: 50px;
   width: 500px;
-  text-align: center;
   font-size: 150%;
+  text-align: center;
+  */
+
 }
 
 .invoice h2 {
@@ -582,13 +591,17 @@ export default {
   padding: 20px;
   border-radius: 10px;
   font-size: 120%;
+  /*
   height: 29vh;
   width: 60vh !important;
+  */
 }
 .list-group-item {
   display: inline-flex;
+  /*
   height: 8vh;
   width: 55vh !important;
+  */
   margin-top: 10px;
   margin-right: 10px;
   margin-top: 0px;

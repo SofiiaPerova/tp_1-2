@@ -18,6 +18,8 @@ class UserCreateSerializer(serializers.ModelSerializer):
         fields = ['email', 'licSchet', 'password', 'is_staff', 'is_active']
 
 
+
+
 class dataSerializer(serializers.ModelSerializer):
     class Meta:
         model = Data

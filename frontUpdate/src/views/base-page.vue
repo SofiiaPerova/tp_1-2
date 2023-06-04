@@ -72,7 +72,7 @@
           </i-collapsible-item>
           <i-collapsible-item title="Я забыл пароль. Как мне его восстановить?">
             <a
-              >Если вы забыли пароль, вы можете перейти на странциу авторизации
+              >Если вы забыли пароль, вы можете перейти на страницу авторизации
               и нажать кнопку "Забыл пароль". После этого вам предложат ввести
               почту, после чего на нее будет отправлена ссылка для смены
               пароля.</a
@@ -90,14 +90,19 @@
         </i-collapsible>
       </div>
     </div>
-    <footer class="footer mt-auto" style="padding-top: 3rem !important">
-      <div
-        class="text-center p-3"
-        style="background-color: rgba(221, 238, 255, 1)"
-      >
-        <p class="text-dark" href="#">© 2023 Copyright: Телефон: 8-900-300-53-02.     Почта: denistestfortp@mail.ru</p>
-      </div>
-    </footer>
+    <div class="container4">
+      <footer class="footer mt-auto" style="padding-top: 3rem !important">
+        <div
+          class="text-center p-3"
+          style="background-color: rgba(221, 238, 255, 1)"
+        >
+          <p class="text-dark" href="#">
+            © 2023 Copyright: Телефон: 8-900-300-53-02. Почта:
+            denistestfortp@mail.ru
+          </p>
+        </div>
+      </footer>
+    </div>
   </div>
 </template>
 
@@ -113,5 +118,9 @@ export default {
 </script>
 
 <style>
-
+.container4 {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
 </style>
