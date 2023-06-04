@@ -248,33 +248,33 @@ export default {
     },
   },
   mounted() {
-    // if (localStorage.getItem("token") == "") {
-    //   this.$router.push("/");
-    // }
-    // axios
-    //   .post(localStorage.ip + "auth/jwt/refresh/", {
-    //     refresh: localStorage.getItem("token"),
-    //   })
-    //   .then((response) => {
-    //     console.log(response);
-    //     localStorage.accessToken = response.data.access;
-    //     axios
-    //       .get(localStorage.ip + "api/v1/admin/users/", {
-    //         headers: {
-    //           Authorization: `Bearer ${localStorage.accessToken}`,
-    //         },
-    //       })
-    //       .then((response) => {
-    //         this.residents = response.data;
-    //         console.log(response);
-    //       })
-    //       .catch((error) => {
-    //         console.log(error);
-    //       });
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
+    if (localStorage.getItem("token") == "") {
+      this.$router.push("/");
+    }
+    axios
+      .post(localStorage.ip + "auth/jwt/refresh/", {
+        refresh: localStorage.getItem("token"),
+      })
+      .then((response) => {
+        console.log(response);
+        localStorage.accessToken = response.data.access;
+        axios
+          .get(localStorage.ip + "api/v1/admin/users/", {
+            headers: {
+              Authorization: `Bearer ${localStorage.accessToken}`,
+            },
+          })
+          .then((response) => {
+            this.residents = response.data;
+            console.log(response);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   },
 };
 </script>
