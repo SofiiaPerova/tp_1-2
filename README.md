@@ -44,7 +44,7 @@ python manage.py migrate
 6. Запустить сервер командой python manage.py runserver.
 7. Запустить клиент командой npm run serve.
 
-#VPS-сервер
+# VPS-сервер
 Сайт доступен по адресу : http://45.146.164.34:5000/
 Аккаунт администратора:
 admin@mail.ru
