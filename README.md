@@ -46,9 +46,16 @@ python manage.py migrate
 
 # VPS-сервер
 Сайт доступен по адресу : http://45.146.164.34:5000/
+
 Аккаунт администратора:
+
 admin@mail.ru
+
 AdMiN333
+
+
 Аккаунт пользователя:
+
 user@mail.ru
+
 UsEr3333
