@@ -23,12 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-wx^vn_fxe)$wfjs1r3s4^)469*&p+0!8i$04oif-dqdkwnl=(z'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-FRONTEND_URL = '45.146.164.34:5000'
-# FRONTEND_URL = 'http://127.0.0.1:5000/'
-ALLOWED_HOSTS = ['45.146.164.34']
-# ALLOWED_HOSTS = []
+# FRONTEND_URL = '45.146.164.34:5000'
+FRONTEND_URL = 'http://127.0.0.1:5000/'
+# ALLOWED_HOSTS = ['45.146.164.34']
+ALLOWED_HOSTS = []
 
 
 
@@ -93,7 +93,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'forTP',
         'USER': 'postgres',
-        'PASSWORD': 'ghFr45cV_',
+        'PASSWORD': 'qwerty123',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }

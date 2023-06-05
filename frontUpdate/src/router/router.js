@@ -31,8 +31,8 @@ const routes = [
 
   
 ]
-localStorage.ip = "http://45.146.164.34:8080/";
-// localStorage.ip = "http://127.0.0.1:8000/";
+//localStorage.ip = "http://45.146.164.34:8080/";
+localStorage.ip = "http://127.0.0.1:8000/";
 const router = new VueRouter({
   mode: 'history',
   routes
@@ -41,11 +41,4 @@ const router = new VueRouter({
 export default router
 
 
-{/* 
 
-<router-link to="/authorization" class="nav-link">Вход</router-link>
-<router-link to="/register" class="nav-link">Регистрация</router-link> 
-<router-link to="/" class="nav-link">Главная</router-link>
-
-
-*/}
