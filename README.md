@@ -33,4 +33,15 @@
 
 [Презентация проекта](https://github.com/SofiiaPerova/tp_1-2/blob/main/%D0%92%D0%B8%D0%B4%D0%B5%D0%BE/%D0%9F%D1%80%D0%B5%D0%B7%D0%B5%D0%BD%D1%82%D0%B0%D1%86%D0%B8%D1%8F.mp4)
 
+# Локальное развертывание
+Для развертывания проекта на локальном сервере необходимо:
+1. Склонировать ветку Develop.
+2. Установить зависимости для vue.js командой nmp install.
+3. Установить рависимости для python командой pip install -r requirements.txt
+4. Настроить в ssetings.py параметры своей БД.
+5. Провести миграции: python manage.py makemigrations и затем применить их 
+python manage.py migrate
+6. Запустить сервер командой python manage.py runserver.
+7. Запустить клиент командой npm run serve.
+
 
