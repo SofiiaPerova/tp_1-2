@@ -9,6 +9,7 @@ from .models import User, Invoice, Costs, Data
 from .premissions import IsOwnerOrAdmin
 from .serializers import *
 
+from django.contrib.auth.hashers import make_password
 from django.core.mail import send_mail
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
@@ -178,5 +179,10 @@ class UserDestroy(DestroyAPIView) :
 class UserCreateAPIView(CreateAPIView): # Создание пользователя админом
     queryset = User.objects.all()
     serializer_class = UserCreateSerializer
-    permission_classes = [IsOwnerOrAdmin, ]
+    permission_classes = [IsOwnerOrAdmin,]
+
+    def perform_create(self, serializer):
+        password = serializer.validated_data.get('password')
+        hashed_password = make_password(password)
+        serializer.save(password=hashed_password)
 
