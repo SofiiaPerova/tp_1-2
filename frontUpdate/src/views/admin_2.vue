@@ -562,7 +562,7 @@ async deleteUser() {
               },
             })
             .then((response) => {
-              this.$router.push("admin");
+              this.$router.push("/admin");
               console.log(response);
             })
             .catch((error) => {

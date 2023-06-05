@@ -92,14 +92,13 @@
             text-variant="white"
           >
             <b-card header="Статус персонала" header-bg-variant="primary">
-              <div class="filter">
-                <b-list-group style="width: 25vh">
+                <b-list-group>
                   <b-list-group-item
                     href="#"
                     @click="filterStatus = 'all'"
                     :active="filterStatus === 'all'"
                     button
-                    class="w-75 h-75"
+                    class="filter"
                   >
                     Все
                   </b-list-group-item>
@@ -108,7 +107,7 @@
                     @click="filterStatus = 'admin'"
                     :active="filterStatus === 'admin'"
                     button
-                    class="w-75 h-75"
+                    class="filter"
                   >
                     Администратор
                   </b-list-group-item>
@@ -117,23 +116,21 @@
                     @click="filterStatus = 'user'"
                     :active="filterStatus === 'user'"
                     button
-                    class="w-75 h-75"
+                    class="filter"
                   >
                     Плательщик
                   </b-list-group-item>
                 </b-list-group>
-              </div>
             </b-card>
 
             <b-card header="Активация" header-bg-variant="primary">
-              <div class="filter">
                 <b-list-group style="width: 25vh">
                   <b-list-group-item
                     href="#"
                     @click="filterStatus = 'all'"
                     :active="filterStatus === 'all'"
                     button
-                    class="w-75 h-75"
+                    class="filter"
                   >
                     Все
                   </b-list-group-item>
@@ -142,7 +139,7 @@
                     @click="filterStatus = 'active'"
                     :active="filterStatus === 'active'"
                     button
-                    class="w-75 h-75"
+                    class="filter"
                   >
                     Активирован
                   </b-list-group-item>
@@ -151,12 +148,11 @@
                     @click="filterStatus = 'nactive'"
                     :active="filterStatus === 'nactive'"
                     button
-                    class="w-75 h-75"
+                    class="filter"
                   >
                     Не активирован
                   </b-list-group-item>
                 </b-list-group>
-              </div>
             </b-card>
           </b-card>
         </div>
@@ -285,6 +281,8 @@ export default {
   padding-top: auto;
 }
 .filter {
-  width: 10vh;
+  width: 25vh !important;
+  height: 5vh;
+  
 }
 </style>
